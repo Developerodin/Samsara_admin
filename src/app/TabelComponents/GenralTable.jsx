@@ -18,52 +18,6 @@ import LinearProgress from '@mui/material/LinearProgress';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-// function createData(
-//   name: string,
-//   checkbox:undefined,
-  
-// ) {
-//   return { name,checkbox};
-// }
-
-// const rows = [
-//   createData('Admin',<Checkbox {...label} />),
-//   createData('Developer',<Checkbox {...label} />),
-//   createData('Analyst',<Checkbox {...label} />),
-//   createData('Support',<Checkbox {...label} />),
-//   createData('Trial',<Checkbox {...label} />),
-// ];
-
-// const initvalues={
-//   email:"",
-//   name:"",
-//   password:""
-// }
-
-// const column=[
-//    {name:"Sno"},
-//    {name:"Sno2"},
-//    {name:"Sno3"},
-//    {name:"Sno"},
-//    {name:"Sno2"},
-//    {name:"Sno3"},
-// ]
-
-// const rows=[
-//    {sno:"1",nmae:"Aksahy",email:"aksahy09@gmail.com",sno2:"1",nmae2:"Aksahy",email2:"aksahy09@gmail.com"},
-//    {sno:"2",nmae:"Aksahy",email:"aksahy09@gmail.com"},
-//    {sno:"3",nmae:"Aksahy",email:"aksahy09@gmail.com"},
-//    {sno:"4",nmae:"Aksahy",email:"aksahy09@gmail.com"},
-//    {sno:"5",nmae:"Aksahy",email:"aksahy09@gmail.com"},
-//    {sno:"1",nmae:"Aksahy",email:"aksahy09@gmail.com"},
-//    {sno:"2",nmae:"Aksahy",email:"aksahy09@gmail.com"},
-//    {sno:"3",nmae:"Aksahy",email:"aksahy09@gmail.com"},
-//    {sno:"4",nmae:"Aksahy",email:"aksahy09@gmail.com"},
-//    {sno:"5",nmae:"Aksahy",email:"aksahy09@gmail.com"},
-// ]
-
-
-
 export const GenralTabel = (props) => {
 const {rows,column}=props;
 const [page, setPage] = React.useState(0);
@@ -89,7 +43,7 @@ const [page, setPage] = React.useState(0);
             {column.map((el,index)=>{
                return(
                   
-                    <TableCell key={index+123} align="center" sx={{fontWeight:"bold"}}>{el.name}</TableCell>
+                    <TableCell key={index+123} align="center" sx={{fontWeight:600,fontSize:15,color:"grey"}}>{el.name}</TableCell>
                     
                )
                })}
@@ -105,8 +59,7 @@ const [page, setPage] = React.useState(0);
          {
             data = Object.keys(el)[i];
             data2[i]=el[data]
-            // console.log("value",el[data])
-            // console.log(data2);
+            
 
          }
          
@@ -115,7 +68,7 @@ const [page, setPage] = React.useState(0);
                   <>
                   <TableRow key={index+1234} tabIndex={-1}>
                      {data2.map((els,index)=>{
-                        return <TableCell key={index+13} align="center">{els}</TableCell>;
+                        return <TableCell key={index+13} align="center" style={{fontSize:13}}>{els}</TableCell>;
                      })}
                   </TableRow>
                   
@@ -139,24 +92,9 @@ const [page, setPage] = React.useState(0);
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
         
+        
       />
     </div>
-    
-
-    {/* <hr/>
-    { valid ?   Data.map((el)=>{
-      return(
-        <div key={el.id}>
-              <h3>{el.title}</h3>
-        </div>
-      )
-    })
-    :
-    <Box sx={{ width: '100%' }}>
-      <LinearProgress />
-    </Box>
-    
-    } */}
       </div>
   )
 }

@@ -35,8 +35,8 @@ import Chargers_E from '../pages/External-Cpo-Management/ExternalChargers/Charge
 import Invoices_E from '../pages/External-Cpo-Management/ExternalInvoice/Invoices'
 import PayoutManagment_E from '../pages/External-Cpo-Management/ExternalPayout/PayoutManagment'
 import Overview from '../pages/Billing & Payments/Overview/Overview'
-import Complains from '../pages/Manage Ev Owners/Complains/Complains'
-import UserList from '../pages/Manage Ev Owners/User List/UserList'
+import Complains from '../pages/Manage Client/Complains/Complains'
+import UserList from '../pages/Manage Client/User List/UserList'
 import AllTransactions from '../pages/Billing & Payments/All Transactions/AllTransactions'
 import CompanyPayouts from '../pages/Billing & Payments/Company Payouts/CompanyPayouts'
 import AddDiscountModel from '../pages/end-Users/DiscountCoupon/Components/AddDicountModel'
@@ -57,14 +57,21 @@ import UserContext from '../../Context/UserContext'
 import { RoamingAgreements } from '../pages/Manage CPOs/CPOs/RoamingAgreements/RoamingAgreements'
 import RoamingRecon from '../pages/Billing & Payments/All Transactions/Pages/RoamingRecon'
 import DiscountCouponsMain from '../pages/Billing & Payments/Discount Coupons/DiscountCouponsMain'
-import { Products } from '../pages/Products/Products'
+
 import { Orders } from '../pages/Orders/Orders'
-import { Categories } from '../pages/Categories/Categories'
-import { CategoriesView } from '../pages/Categories/CategoriesView'
-import { ProductView } from '../pages/Products/ProductView'
+
 import { OrderView } from '../pages/Orders/OrderView'
-import { CategoriesCreate } from '../pages/Categories/CategoriesCreate'
-import { ProductAdd } from '../pages/Products/ProductAdd'
+
+import { Company } from '../pages/Manage Corporate/Company'
+import { CompanyView } from '../pages/Manage Corporate/CompanyView'
+import { CompanyCreate } from '../pages/Manage Corporate/CompanyCreate'
+import { CorporateUsers } from '../pages/Manage Corporate/CorporateUsers'
+import { CorporateUsersAdd } from '../pages/Manage Corporate/CorporateUsersAdd'
+import { CorporateUsersView } from '../pages/Manage Corporate/CorporateUsersView'
+import { Trainers } from '../pages/ManageTrainers/Trainers'
+import { TrainerAdd } from '../pages/ManageTrainers/TrainerAdd'
+import { TrainerView } from '../pages/ManageTrainers/TrainerView'
+import { UsersAdd } from '../pages/Manage Client/User List/UsersAdd'
 
 
 
@@ -110,10 +117,10 @@ const PrivateRoutes = () => {
         />
 
 <Route
-          path='products/*'
+          path='corporate/users/*'
           element={
             <SuspensedView>
-              <Products />
+              <CorporateUsers />
             </SuspensedView>
           }
         />
@@ -127,10 +134,10 @@ const PrivateRoutes = () => {
         />
 
 <Route
-          path='categories/*'
+          path='corporate/company/*'
           element={
             <SuspensedView>
-              <Categories />
+              <Company />
             </SuspensedView>
           }
         />
@@ -139,7 +146,7 @@ const PrivateRoutes = () => {
           path='categories_view/*'
           element={
             <SuspensedView>
-              <CategoriesView />
+              <CompanyView />
             </SuspensedView>
           }
         />
@@ -147,7 +154,16 @@ const PrivateRoutes = () => {
           path='product_view/*'
           element={
             <SuspensedView>
-              <ProductView />
+              <CorporateUsersView />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='trainer_view/*'
+          element={
+            <SuspensedView>
+              <TrainerView />
             </SuspensedView>
           }
         />
@@ -165,16 +181,34 @@ const PrivateRoutes = () => {
           path='add_categorie/*'
           element={
             <SuspensedView>
-              <CategoriesCreate />
+              <CompanyCreate />
             </SuspensedView>
           }
         />
 
 <Route
-          path='add_product/*'
+          path='add_corporate_user/*'
           element={
             <SuspensedView>
-              <ProductAdd />
+              <CorporateUsersAdd />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='add_user/*'
+          element={
+            <SuspensedView>
+              <UsersAdd />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='add_trainer/*'
+          element={
+            <SuspensedView>
+              <TrainerAdd />
             </SuspensedView>
           }
         />
@@ -269,10 +303,10 @@ const PrivateRoutes = () => {
         {/* End users */}
 
         <Route
-          path='endusers/customerlist/*'
+          path='trainers/*'
           element={
             <SuspensedView>
-              <CustomerList/>
+              <Trainers/>
             </SuspensedView>
           }
         />
@@ -522,7 +556,7 @@ const PrivateRoutes = () => {
 {
           userPermisson.UserList && (
             <Route
-            path='evowners/userlist/*'
+            path='clients/*'
             element={
               <SuspensedView>
                 <UserList/>
@@ -542,7 +576,7 @@ const PrivateRoutes = () => {
 {
           userPermisson.Complains && (
             <Route
-            path='evowners/complains/*'
+            path='complains*'
             element={
               <SuspensedView>
                 <Complains/>

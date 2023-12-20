@@ -4,7 +4,7 @@ import { ThemColor } from '../../Them/ThemColor'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {  useNavigate } from 'react-router-dom';
 
-export const CategoriesView = () => {
+export const CompanyView = () => {
   const navigate = useNavigate();
  
   const handelGoBack=()=>{

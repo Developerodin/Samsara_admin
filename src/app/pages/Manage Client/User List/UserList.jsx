@@ -5,7 +5,7 @@ import UserHeader from './Components/UserHeader'
 import { KTCard } from '../../../../_metronic/helpers'
 import { GenralTabel } from '../../../TabelComponents/GenralTable'
 import MapLocation from '../../../MapLocation/MapLocation'
-import { Button, Switch,Modal,Box,Typography,TextField } from '@mui/material'
+import { Button, Switch,Modal,Box,Typography,TextField, Card, CardContent } from '@mui/material'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
@@ -17,14 +17,19 @@ import { useNavigate } from 'react-router-dom'
 import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
 import { UserWalletModal } from './Components/UserWalletModal'
 import AddVehicle from './Components/AddVehicle'
-import { BASE_URL } from '../../../Config/BaseUrl'
+import { BASE_URL, Base_url } from '../../../Config/BaseUrl'
 import axios from 'axios'
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { useFormik } from "formik";
+import Autocomplete from '@mui/material/Autocomplete';
+import TuneIcon from '@mui/icons-material/Tune';
+import { AddCircle } from '@mui/icons-material';
+import { ThemColor } from '../../../Them/ThemColor'
 const UserList = () => {
+  const navigate = useNavigate();
   const token =sessionStorage.getItem('token');
   const userData=JSON.parse(sessionStorage.getItem('User'))
   const style = {
@@ -78,7 +83,8 @@ const UserList = () => {
     {name:"Name"},
     {name:"Email"},
     {name:"Phone"},
-    
+    {name:"Address"},
+    {name:"city"},
     // {name:"Charge Duration"},
     {name:"Status"},
     // {name:"Wallet"},
@@ -221,11 +227,89 @@ const UserList = () => {
       setRows([]);
     }
   };
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/users`); // Replace with your actual API endpoint
+      // setUsers(response.data.data.users);
+      const Data= response.data.data.users
+      console.log("User Data ==>",Data)
+      if(Data){
+        const Users = Data.filter((item) => {
+          return item.corporate_id === "";
+        });
+          const formattedData = Users.map((item) => ({
+         "Name":item.name,
+         "Email":item.email,
+         "Phone":item.mobile,
+         "Address":item.Address,
+        "City":item.city,
+         "Status":item.status ? <Button color='success' variant="contained" >Active</Button> : <Button color='error' variant="contained">Inactive</Button>,
+         // "Wallet":<Button sx={{color:"black"}}onClick={()=>handelWalletClick(item._id,item)}><AccountBalanceWalletIcon/></Button>,
+     
+         "Active":<Switch checked={item.status}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
+    
+         // "Functional":<Switch checked={item.functional}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
+         
+       Update: <BorderColorIcon onClick={() => handleUpdateCustomerOpen(item._id)} />,
+       Delete: <DeleteIcon  onClick={() => handelDeleteCustomer(item._id)}/>
+     }));
+  //    const ActiveUsers = CustomersData.filter((item) => {
+  //      return item.status === true;
+  //    });
+  //    const ActiveData = ActiveUsers.map((item) => ({
+  //      "Name":item.name,
+  //      "Email":item.email,
+  //      "Phone":item.phone_number,
+  //      "Charge Duration":"100 hrs",
+  //      "Status":item.status ? <Button color='success' variant="contained" >Active</Button> : <Button color='error' variant="contained">Inactive</Button>,
+  //      "Wallet":<Button sx={{color:"black"}}onClick={()=>handelWalletClick(item._id,item)}><AccountBalanceWalletIcon/></Button>,
+  //      "Vehicles":"tata Ev4",
+  //      "Active":<Switch checked={item.status}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
+  //      "Icon":<AddVehicle/>,
+  //      // "Functional":<Switch checked={item.functional}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
+       
+  //    Update: <BorderColorIcon onClick={() => handleUpdateCustomerOpen(item._id)} />,
+  //    Delete: <DeleteIcon  onClick={() => handelDeleteCustomer(item._id)}/>
+  //  }));
+
+  //    const InActiveUsers = CustomersData.filter((item) => {
+  //      return item.status === false;
+  //    });
+
+  //    const InActiveData = InActiveUsers.map((item) => ({
+  //      "Name":item.name,
+  //      "Email":item.email,
+  //      "Phone":item.phone_number,
+  //      "Charge Duration":"100 hrs",
+  //      "Status":item.status ? <Button color='success' variant="contained" >Active</Button> : <Button color='error' variant="contained">Inactive</Button>,
+  //      "Wallet":<Button sx={{color:"black"}}onClick={()=>handelWalletClick(item._id,item)}><AccountBalanceWalletIcon/></Button>,
+  //      "Vehicles":"tata Ev4",
+  //      "Active":<Switch checked={item.status}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
+  //      "Icon":<AddVehicle/>,
+  //      // "Functional":<Switch checked={item.functional}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
+       
+  //    Update: <BorderColorIcon onClick={() => handleUpdateCustomerOpen(item._id)} />,
+  //    Delete: <DeleteIcon  onClick={() => handelDeleteCustomer(item._id)}/>
+  //  }));
+
+     setRows(formattedData);
+     setFilterRows(formattedData);
+    //  setActiveUsers(ActiveData);
+    //  setInActiveUsers(InActiveData);
+    
+    
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error.message);
+    }
+  };
   useEffect(()=>{
    
   
     // console.log("UserData", userData);
-    fetchData();
+    // fetchData();
+    fetchUsers();
   },[update])
 
   const handelWalletClick=(id,data)=>{
@@ -490,15 +574,15 @@ const UserList = () => {
 
   const handleUpdateCustomerOpen=(id)=>{
     console.log("Customer Update  Open");
-    getCustomerById(id);
-    handleOpen();
+    // getCustomerById(id);
+    // handleOpen();
   }
 
   const handelDeleteCustomer=async(id)=>{
     console.log("delete Customer",id)
     try {
-      const res = await axios.delete(`${BASE_URL}/customers/deletecustomers/${id}`, {
-        headers: { "Authorization": `${token}` }
+      const res = await axios.delete(`${Base_url}api/users/${id}`, {
+        // headers: { "Authorization": `${token}` }
       });
       console.log("res Customer delete === ==>", res);
       setupdate((prev)=>prev+1)
@@ -509,12 +593,12 @@ const UserList = () => {
 
   const handleSwitchChange=async(event,id)=>{
     const checked = event.target.checked;
-    console.log("Check sttaus===>",checked,id)
-    try {
-      await updateFunctionalStatus( checked,id);
-    } catch (err) {
-      console.log("Error updating functional status", err);
-    }
+    // console.log("Check sttaus===>",checked,id)
+    // try {
+    //   await updateFunctionalStatus( checked,id);
+    // } catch (err) {
+    //   console.log("Error updating functional status", err);
+    // }
   }
 
   const handelActiveFilter=()=>{
@@ -529,20 +613,59 @@ const UserList = () => {
     setFilterRows(rows)
   }
   
+  const handelAddNew=()=>{
+    navigate("/add_user");
+  }
 
  const data = "26.509904,75.410153";
   return (
     <div>
-    <UserHeader setUpdate={setupdate}  handleSearchInputChange={handleSearchInputChange}
-        searchInput={searchInput}
-        handelActiveFilter={handelActiveFilter}
-        handelInActiveFilter={handelInActiveFilter}
-        handelAllUsers={handelAllUsers}
-        />
-   <KTCard>
+    <Card>
+        <CardContent>
+          <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+           
+
+            <Box style={{width:"30%"}}>
+            <Autocomplete
+        freeSolo
+        id="free-solo-2-demo"
+        disableClearable
+        options={rows.map((option) => option.Name)}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search..."
+            InputProps={{
+              ...params.InputProps,
+              type: 'search',
+            }}
+          />
+        )}
+      />
+            </Box>
+
+            <Box >
+            <Button
+          variant="contained"
+          style={{backgroundColor:`${ThemColor.buttons}`,marginRight:"15px"}}
+          startIcon={<AddCircle />}
+          onClick={handelAddNew}
+        >
+          Add User
+        </Button>
+             
+              <Button variant='contained' style={{backgroundColor:`${ThemColor.buttons}`}}>
+                <TuneIcon />
+              </Button>
+            </Box>
+           
+          </Box>
+        </CardContent>
+       </Card>
+ 
    
    <GenralTabel rows={filterRows} column={column}/>
-   </KTCard>
+  
    <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div className="modal-dialog modal-dialog-centered" role="document">
  <div className="modal-content">

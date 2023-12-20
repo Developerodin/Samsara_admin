@@ -46,7 +46,13 @@ const SidebarLogo = () => {
           className='h-20px app-sidebar-logo-minimize'
         /> */}
         <div style={{textAlign:"center",marginLeft:23}}>
-        <h2  style={{fontSize:25,letterSpacing:3,color:"#363062",fontWeight:"bold"}}>SAMSARA</h2>
+        <h2  style={{
+      fontSize: 25,
+      letterSpacing: 3,
+      color: "#363062",
+      fontWeight: "bold",
+      fontFamily: "'Playfair Display', serif"
+    }}>SAMSARA</h2>
         </div>
        
       </Link>

@@ -21,7 +21,7 @@ const column = [
   { name: "Delete" },
 ];
 
-export const Categories = () => {
+export const Company = () => {
   const navigate = useNavigate();
 
   const handelViewClick=()=>{
@@ -50,11 +50,11 @@ export const Categories = () => {
        <Card>
         <CardContent>
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-            <Box>
+            {/* <Box>
             <Typography variant='h5' style={{fontWeight:600,letterSpacing:3}}>COMPANY</Typography>
-            </Box>
+            </Box> */}
 
-            <Box style={{width:"50%",hieght:"50px"}}>
+            <Box style={{width:"30%"}}>
             <Autocomplete
         freeSolo
         id="free-solo-2-demo"
@@ -68,8 +68,10 @@ export const Categories = () => {
               ...params.InputProps,
               type: 'search',
             }}
+            
           />
         )}
+        style={{borderRadius:50}}
       />
             </Box>
 

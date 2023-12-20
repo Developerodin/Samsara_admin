@@ -35,7 +35,7 @@ const SidebarMenuMain = () => {
           </div>
                </div>
                <SidebarMenuItem
-            to='/categories/'
+            to='/corporate/company/'
             icon='/media/icons/duotune/general/gen019.svg'
             
             title='Company'
@@ -44,7 +44,7 @@ const SidebarMenuMain = () => {
           />
 
 <SidebarMenuItem
-            to='/products/'
+            to='/corporate/users/'
             icon='/media/icons/duotune/general/gen022.svg'
             title='Users'
             fontIcon='bi-layers'
@@ -65,7 +65,7 @@ const SidebarMenuMain = () => {
   {/* Manage EV Owners */}
                 <div className='menu-item mt-5'>
           <div className='menu-content'>
-            <span className='menu-heading fw-bold  fs-7' style={{color:"#fff"}}>Manage Client</span>
+            <span className='menu-heading fw-bold  fs-7' style={{color:"#fff"}}>Manage Users</span>
           </div>
                </div>
   
@@ -85,7 +85,7 @@ const SidebarMenuMain = () => {
   {
             userPermisson.UserList && (
               <SidebarMenuItem
-            to='/evowners/userlist/'
+            to='/clients/'
             icon='/media/icons/duotune/communication/com013.svg'
             title='UserList'
             fontIcon='bi-layers'
@@ -100,7 +100,7 @@ const SidebarMenuMain = () => {
            {
             userPermisson.Complains && (
               <SidebarMenuItem
-              to='evowners/complains/'
+              to='complains/'
               icon='/media/icons/duotune/abstract/abs026.svg'
               title='Complains'
               fontIcon='bi-layers'
@@ -139,7 +139,7 @@ const SidebarMenuMain = () => {
   {
             userPermisson.UserList && (
               <SidebarMenuItem
-            to='/endusers/customerlist/'
+            to='/trainers/'
             icon='/media/icons/duotune/communication/com013.svg'
             title='Trainers List'
             fontIcon='bi-layers'
