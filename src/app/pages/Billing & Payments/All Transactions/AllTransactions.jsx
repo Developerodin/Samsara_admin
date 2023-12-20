@@ -19,7 +19,7 @@ const AllTransactions = () => {
     {name:"User"},
     {name:"Product"},
     {name:"Price"},
-    {name:"Quantity"},
+   
     {name:"Actions"},
   ]
   const rows = [
@@ -29,9 +29,9 @@ const AllTransactions = () => {
       Type: "credit",
       User: "Test user",
      
-      Product: "News Paper",
-      Price: "₹ 52.16",
-      Quantity: "4 Kg",
+      Product: "to user ",
+      Price: "₹  3000",
+    
       Action: <EditBooking />,
     },
     // Add more data entries as needed
