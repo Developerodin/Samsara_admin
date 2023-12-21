@@ -13,6 +13,7 @@ import { AddCircle } from '@mui/icons-material';
 import axios from 'axios';
 import { Base_url } from '../../Config/BaseUrl';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+
 const column = [
  
   { name: "Name" },
@@ -22,6 +23,7 @@ const column = [
   {name:"City"},
   { name: "Status" },
   { name: "Active" },
+  {name:"View"},
   { name: "Update" },
   { name: "Delete" },
 ];
@@ -85,12 +87,16 @@ export const Trainers = () => {
     // }
   }
 
+  const handelTrainerView = (id)=>{
+    navigate(`trainer_view/${id}`)
+  }
+
   const fetchTeachers = async () => {
     try {
       const response = await axios.get(`${Base_url}api/teacher`); // Replace with your actual API endpoint
       // setUsers(response.data.data.users);
       const Data= response.data.data.teachers
-      console.log("User Data ==>",Data)
+      console.log("Trainer Data ==>",Data)
       if(Data){
       
           const formattedData = Data.map((item) => ({
@@ -103,7 +109,7 @@ export const Trainers = () => {
          // "Wallet":<Button sx={{color:"black"}}onClick={()=>handelWalletClick(item._id,item)}><AccountBalanceWalletIcon/></Button>,
      
          "Active":<Switch checked={item.status}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
-    
+         "View":<RemoveRedEyeIcon onClick={()=>handelTrainerView(item._id)}/>,
          // "Functional":<Switch checked={item.functional}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
          
        Update: <BorderColorIcon onClick={() => handleUpdateCustomerOpen(item._id)} />,

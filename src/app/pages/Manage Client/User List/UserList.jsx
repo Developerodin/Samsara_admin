@@ -28,6 +28,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TuneIcon from '@mui/icons-material/Tune';
 import { AddCircle } from '@mui/icons-material';
 import { ThemColor } from '../../../Them/ThemColor'
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 const UserList = () => {
   const navigate = useNavigate();
   const token =sessionStorage.getItem('token');
@@ -91,7 +92,7 @@ const UserList = () => {
     
     // {name:"Vehicles"},
     {name:"Active"},
-    // {name:"Add Vehicle"},
+    {name:"View"},
     {name:"Update"},
     {name:"Delete"}
   ]
@@ -228,6 +229,9 @@ const UserList = () => {
     }
   };
 
+  const handelUserView = (id)=>{
+    navigate(`user_view/${id}`)
+  }
   const fetchUsers = async () => {
     try {
       const response = await axios.get(`${Base_url}api/users`); // Replace with your actual API endpoint
@@ -248,7 +252,7 @@ const UserList = () => {
          // "Wallet":<Button sx={{color:"black"}}onClick={()=>handelWalletClick(item._id,item)}><AccountBalanceWalletIcon/></Button>,
      
          "Active":<Switch checked={item.status}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
-    
+          "View":<RemoveRedEyeIcon onClick={()=>handelUserView(item._id)}/>,
          // "Functional":<Switch checked={item.functional}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
          
        Update: <BorderColorIcon onClick={() => handleUpdateCustomerOpen(item._id)} />,

@@ -45,9 +45,9 @@ const ChartsWidget1: React.FC<Props> = ({className}) => {
       <div className='card-header border-0 pt-5'>
         {/* begin::Title */}
         <h3 className='card-title align-items-start flex-column'>
-          <span className='card-label fw-bold fs-3 mb-1'>CPO graph</span>
+          <span className='card-label fw-bold fs-3 mb-1'>Progress graph</span>
 
-          <span className='text-muted fw-semibold fs-7'>More than 400 new CPO</span>
+          <span className='text-muted fw-semibold fs-7'>More than 400 new activity</span>
         </h3>
         {/* end::Title */}
 
@@ -92,11 +92,11 @@ function getChartOptions(height: number): ApexOptions {
   return {
     series: [
       {
-        name: 'month ',
+        name: 'activity ',
         data: [44, 55, 57, 56, 61, 58],
       },
       {
-        name: 'total CPOs',
+        name: 'progress',
         data: [76, 85, 101, 98, 87, 105],
       },
     ],
@@ -179,7 +179,7 @@ function getChartOptions(height: number): ApexOptions {
       },
       y: {
         formatter: function (val) {
-          return val + ' thousands'
+          return val + '%'
         },
       },
     },

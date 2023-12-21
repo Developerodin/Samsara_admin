@@ -1,33 +1,28 @@
-
 import React, { useEffect, useState } from "react";
 import {
-  ChartsWidget1,
+    ChartsWidget1,
   ListsWidget1,
   ListsWidget2,
   ListsWidget5,
   TablesWidget1,
   TablesWidget5,
-} from "../../../_metronic/partials/widgets";
+} from "../../../../_metronic/partials/widgets";
 
 import { Link, useParams } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
-
+import { KTSVG,toAbsoluteUrl } from "../../../../_metronic/helpers";
 import axios from "axios";
-
+import { Base_url } from "../../../Config/BaseUrl";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Typography } from "@mui/material";
-import { KTSVG,toAbsoluteUrl } from "../../../_metronic/helpers";
-import { Base_url } from "../../Config/BaseUrl";
-import { ListsWidget10 } from "../../../_metronic/partials/widgets/lists/ListsWidget10";
+import { ListsWidget10 } from "../../../../_metronic/partials/widgets/lists/ListsWidget10";
 
-
-
-export const CorporateUsersView = () => {
+export const UserView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const Data = [

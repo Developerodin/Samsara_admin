@@ -22,6 +22,7 @@ const column=[
   {name:"city"},
   {name:"Status"},
   {name:"Active"},
+  {name:"View"},
   {name:"Update"},
   {name:"Delete"}
 ]
@@ -68,7 +69,9 @@ export const CorporateUsers = () => {
     //   console.log("Error updating functional status", err);
     // }
   }
-
+  const handelUserView = (id)=>{
+    navigate(`corporate_user_view/${id}`)
+  }
   const fetchUsers = async () => {
     try {
       const response = await axios.get(`${Base_url}api/users`); // Replace with your actual API endpoint
@@ -90,7 +93,7 @@ export const CorporateUsers = () => {
          // "Wallet":<Button sx={{color:"black"}}onClick={()=>handelWalletClick(item._id,item)}><AccountBalanceWalletIcon/></Button>,
      
          "Active":<Switch checked={item.status}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
-    
+         "View":<RemoveRedEyeIcon onClick={()=>handelUserView(item._id)}/>,
          // "Functional":<Switch checked={item.functional}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
          
        Update: <BorderColorIcon onClick={() => handleUpdateCustomerOpen(item._id)} />,

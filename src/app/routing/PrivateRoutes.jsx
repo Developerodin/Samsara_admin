@@ -72,6 +72,7 @@ import { Trainers } from '../pages/ManageTrainers/Trainers'
 import { TrainerAdd } from '../pages/ManageTrainers/TrainerAdd'
 import { TrainerView } from '../pages/ManageTrainers/TrainerView'
 import { UsersAdd } from '../pages/Manage Client/User List/UsersAdd'
+import { UserView } from '../pages/Manage Client/User List/UserView'
 
 
 
@@ -151,7 +152,7 @@ const PrivateRoutes = () => {
           }
         />
         <Route
-          path='product_view/*'
+          path='corporate/users/corporate_user_view/:id'
           element={
             <SuspensedView>
               <CorporateUsersView />
@@ -160,13 +161,23 @@ const PrivateRoutes = () => {
         />
 
 <Route
-          path='trainer_view/*'
+          path='trainers/trainer_view/:id*'
           element={
             <SuspensedView>
               <TrainerView />
             </SuspensedView>
           }
         />
+
+<Route
+          path='clients/user_view/:id*'
+          element={
+            <SuspensedView>
+              <UserView />
+            </SuspensedView>
+          }
+        />
+
 
 <Route
           path='orders_view/*'
@@ -553,8 +564,7 @@ const PrivateRoutes = () => {
 
 
 
-{
-          userPermisson.UserList && (
+
             <Route
             path='clients/*'
             element={
@@ -563,9 +573,7 @@ const PrivateRoutes = () => {
               </SuspensedView>
             }
           />
-        
-          )
-        }
+       
 
 
 
@@ -573,8 +581,7 @@ const PrivateRoutes = () => {
 
 
 
-{
-          userPermisson.Complains && (
+
             <Route
             path='complains*'
             element={
@@ -584,8 +591,7 @@ const PrivateRoutes = () => {
             }
           />
         
-          )
-        }
+     
 
 
 
