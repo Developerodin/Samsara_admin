@@ -354,6 +354,35 @@ export const TrainerView = () => {
             </div>
           </div>
 
+       
+
+          <div className="row mb-10">
+            <label className="col-lg-4 fw-bold text-muted">About</label>
+
+            <div className="col-lg-8">
+              {/* {
+                teacherData && teacherData.Address
+              } */}
+              <span className="fw-bold fs-6">
+                {teacherData && teacherData.description} Namaste 🙏✨
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div className="card mb-5 mb-xl-10" id="kt_profile_details_view">
+        <div className="card-header cursor-pointer">
+          <div className="card-title m-0">
+            <h3 className="fw-bolder m-0">Yoga Information</h3>
+          </div>
+        </div>
+
+        <div className="card-body p-9">
+        
+
           <div className="row mb-7">
             <label className="col-lg-4 fw-bold text-muted">Qualification</label>
 
@@ -444,41 +473,7 @@ export const TrainerView = () => {
             </div>
           </div>
 
-          
-
-
-          <div className="row mb-10">
-            <label className="col-lg-4 fw-bold text-muted">About</label>
-
-            <div className="col-lg-8">
-              {/* {
-                teacherData && teacherData.Address
-              } */}
-              <span className="fw-bold fs-6">
-                {teacherData && teacherData.description} Namaste 🙏✨
-              </span>
-            </div>
-          </div>
-
-          {/* <div className='notice d-flex bg-light-warning rounded border-warning border border-dashed p-6'>
-            <KTSVG
-              path='icons/duotune/general/gen044.svg'
-              className='svg-icon-2tx svg-icon-warning me-4'
-            />
-            <div className='d-flex flex-stack flex-grow-1'>
-              <div className='fw-bold'>
-                <h4 className='text-gray-800 fw-bolder'>We need your attention!</h4>
-                <div className='fs-6 text-gray-600'>
-                  Your payment was declined. To start using tools, please
-                  <Link className='fw-bolder' to='/crafted/account/settings'>
-                    {' '}
-                    Add Payment Method
-                  </Link>
-                  .
-                </div>
-              </div>
-            </div>
-          </div> */}
+         
         </div>
       </div>
 
