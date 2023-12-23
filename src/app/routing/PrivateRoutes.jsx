@@ -75,9 +75,11 @@ import { UsersAdd } from '../pages/Manage Client/User List/UsersAdd'
 import { UserView } from '../pages/Manage Client/User List/UserView'
 import { ManageClasses } from '../pages/Manage CLasses/ManageClasses'
 import { ClassView } from '../pages/Manage CLasses/ClassView'
-import { ClassRecordings } from '../pages/Manage CLasses/ClassRecordings'
+
 import { AddNewClass } from '../pages/Manage CLasses/AddNewClass'
 import { ZoomMeeetingRoom } from '../pages/Manage CLasses/ZoomMeeetingRoom'
+import { RecordedClasses } from '../pages/Manage CLasses/RecordedClasses'
+import { CustomSessions } from '../pages/Manage CLasses/CustomSessions'
 
 
 
@@ -379,10 +381,19 @@ const PrivateRoutes = () => {
         />
 
 <Route
-          path='class_recordings/:id'
+          path='recorded_classes/*'
           element={
             <SuspensedView>
-              <ClassRecordings/>
+              <RecordedClasses/>
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='custom_sessions/*'
+          element={
+            <SuspensedView>
+              <CustomSessions/>
             </SuspensedView>
           }
         />

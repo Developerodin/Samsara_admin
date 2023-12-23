@@ -116,6 +116,22 @@ const SidebarMenuMain = () => {
             fontIcon='bi-layers'
            
           />
+
+<SidebarMenuItem
+            to='/recorded_classes/'
+            icon='/media/icons/duotune/communication/com013.svg'
+            title='Recorded Classes'
+            fontIcon='bi-layers'
+           
+          />
+
+<SidebarMenuItem
+            to='/custom_sessions/'
+            icon='/media/icons/duotune/communication/com013.svg'
+            title='Custom Session'
+            fontIcon='bi-layers'
+           
+          />
   
         <div className='menu-item mt-5'>
           <div className='menu-content'>

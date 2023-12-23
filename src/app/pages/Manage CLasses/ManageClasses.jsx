@@ -327,12 +327,12 @@ useEffect(() => {
         setClasses(response.data.data);
         const Data = response.data.data
         if(Data){
-         
+        //  console.log("Data Class DAta in if  : ",Data)
             const formattedData = Data.map((item) => ({
             "Title":item.title,
-           "Teacher":item.teacher.name,
+           "Teacher":item.teacher ? item.teacher.name : "no teacher assigned",
            "Date":item.schedule,
-           "Phone":item.teacher.mobile,
+           "Phone":item.teacher ? item.teacher.mobile : "no teacher assigned",
           "Students":item.students.length,
           "Recordings":"coming soon",
           "Status":item.status ? <Button color='success' variant="contained" >Active</Button> : <Button color='error' variant="contained">Inactive</Button>,
@@ -351,7 +351,7 @@ useEffect(() => {
        }));
 
   
-   
+        // console.log("Formated DAta ==>",formattedData)
   
        setRows(formattedData);
        setFilterRows(formattedData);

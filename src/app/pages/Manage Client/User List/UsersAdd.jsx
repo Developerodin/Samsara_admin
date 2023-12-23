@@ -109,6 +109,7 @@ export const UsersAdd = () => {
     Address: "",
     howyouknowus: "",
     PriorExperience: "",
+    password:""
   });
 
 const [selectedType,setSelectedType] = useState("Personal")
@@ -201,7 +202,8 @@ const [selectedType,setSelectedType] = useState("Personal")
       "howyouknowus":formData.howyouknowus,
       "PriorExperience": formData.PriorExperience,
       "description":formData.description,
-      "dataImages":userimageFile1
+      "dataImages":userimageFile1,
+      "password":formData.password
     };
     
     formData1.append("name", userData.name);
@@ -426,7 +428,18 @@ const [selectedType,setSelectedType] = useState("Personal")
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={4}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Password"
+                    variant="outlined"
+                    style={{ width: "100%" }}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={8}>
                   <div>
                     <FormControl sx={{ width: "100%" }}>
                       <InputLabel id="demo-multiple-checkbox-label">
