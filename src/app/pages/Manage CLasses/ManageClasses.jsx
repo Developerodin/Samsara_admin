@@ -238,6 +238,7 @@ const handleCreateMeeting = async (id,pass) => {
     if (response.status === 201) {
       // Meeting created successfully
       console.log('Meeting created successfully');
+      setupdate((prev)=>prev+1)
     } else {
       // Handle error
       console.error('Failed to create meeting');
@@ -311,7 +312,7 @@ useEffect(() => {
 
     const handelZoomMeeting = (Data)=>{
     
-      const data = Data[0]
+      const data =Data
       console.log("Data===>",data)
       const ZoomMeetingNumber={
       number:data.meeting_number,
@@ -319,6 +320,24 @@ useEffect(() => {
       userToken:userToken
       }
       navigate(`zoom-meeting/`, { state: { ZoomMeetingNumber } });
+    }
+
+    const handelZoomMeetingEnd=async(id)=>{
+      console.log("delete Meeting",id)
+     
+      try {
+        const res = await axios.delete(`${Base_url}api/classes/end_meeting/${id}`, {
+          // headers: { "Authorization": `${token}` }
+        });
+        console.log("res Customer delete === ==>", res);
+        if(res){ 
+          alert("Meeting Ended successfully")
+          setupdate((prev)=>prev+1)
+        }
+      
+      } catch (err) {
+        console.log("error in Customer delete", err);
+      }
     }
 
     const getAllClasses = async () => {
@@ -344,7 +363,12 @@ useEffect(() => {
           <Button variant='contained' onClick={()=>handelMeetingStart(item,item._id)}>Start</Button>
 
           {
-            item.meeting_number && <Button variant='contained' style={{marginLeft:"20px"}} onClick={()=>{handelZoomMeeting(Data)}}>Join</Button>
+            item.meeting_number && <Button variant='contained' style={{marginLeft:"20px"}} onClick={()=>{handelZoomMeeting(item)}}>Join</Button>
+            
+          }
+          {
+            item.meeting_number && <Button variant='contained' style={{marginLeft:"20px"}} onClick={()=>{handelZoomMeetingEnd(item._id)}}>End</Button>
+            
           }
           
       </Box>
