@@ -13,17 +13,15 @@ import axios from 'axios';
 import ZoomMtgEmbedded from '@zoomus/websdk/embedded';
 const KJUR = require('jsrsasign')
 const column=[
+    {name:"Recording"},
     {name:"Title"},
     {name:"Teacher"},
-    {name:"Schedule Date"},
-    {name:"Teacher Phone Number"},
-    {name:"Total Students Joined"},
-    {name:"Recordings"},
+    {name:"Date"},
+    {name:"Description"},
     {name:"Status"},
-    {name:"View"},
     {name:"Update"},
     {name:"Delete"},
-    {name:"Meeting"}
+    {name:"Action"}
     
   ]
 export const RecordedClasses = () => {
@@ -40,7 +38,7 @@ export const RecordedClasses = () => {
     }
 
     const handelClassAdd = ()=>{
-      navigate(`add_class/`)
+      navigate(`add_class_recording/`)
     }
 
     const handleUpdateClassOpen=(id)=>{
@@ -53,7 +51,7 @@ export const RecordedClasses = () => {
       console.log("delete Customer",id)
      
       try {
-        const res = await axios.delete(`${Base_url}api/classes/${id}`, {
+        const res = await axios.delete(`${Base_url}api/recorded-classes/${id}`, {
           // headers: { "Authorization": `${token}` }
         });
         console.log("res Customer delete === ==>", res);
@@ -63,41 +61,59 @@ export const RecordedClasses = () => {
       }
     }
   
+    const handleStatusChange = async (Id,value) => {
+      try {
+        const response = await axios.patch(`${Base_url}api/recorded-classes/${Id}/update-status`,{
+          status: value
+        });
+  
+        // Assuming your backend returns the updated session data
+        const updatedSession = response.data;
+        setupdate((prev)=>prev+1)
+        // Handle the updated session data as needed
+        console.log('Updated Session:', updatedSession);
+  
+        // Optionally, you can trigger a UI update or perform other actions here
+      } catch (error) {
+        console.error('Error:', error.message);
+        // Handle error, show a message to the user, etc.
+      }
+    };
 
     const getAllClasses = async () => {
       try {
-        const response = await axios.get(`${Base_url}api/custom_session`); // Update the API endpoint accordingly
+        const response = await axios.get(`${Base_url}api/recorded-classes`); // Update the API endpoint accordingly
         setClasses(response.data.data);
-        const Data = response.data.data
+        const Data = response.data;
+        console.log("REdorder classes",Data)
         if(Data){
          console.log("Data Class DAta in if  : ",Data)
-      //       const formattedData = Data.map((item) => ({
-      //       "Title":item.title,
-      //      "Teacher":item.teacher ? item.teacher.name : "no teacher assigned",
-      //      "Date":item.schedule,
-      //      "Phone":item.teacher ? item.teacher.mobile : "no teacher assigned",
-      //     "Students":item.students.length,
-      //     "Recordings":"coming soon",
-      //     "Status":item.status ? <Button color='success' variant="contained" >Active</Button> : <Button color='error' variant="contained">Inactive</Button>,
-      //      "View":<RemoveRedEyeIcon onClick={()=>handelClassView(item._id)}/>, 
-      //    "Update": <BorderColorIcon onClick={() => handleUpdateClassOpen(item._id)} />,
-      //    "Delete": <DeleteIcon  onClick={() => handelDeleteClass(item._id)}/>,
-      //    "Meeting":<Box style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-          
-      //     <Button variant='contained' onClick={()=>handelMeetingStart(item,item._id)}>Start</Button>
-
-      //     {
-      //       item.meeting_number && <Button variant='contained' style={{marginLeft:"20px"}} onClick={()=>{handelZoomMeeting(Data)}}>Join</Button>
-      //     }
-          
-      // </Box>
-      //  }));
+            const formattedData = Data.map((item) => ({
+              "Recording": <div>
+              <iframe
+                title={item.title}
+                className='embed-responsive-item rounded h-100px w-200px'
+                src={item.classRecordingLink}
+                allowFullScreen={true}
+               
+              />
+            </div>,
+            "Title":item.title,
+           "Teacher":item.teacher ? item.teacher.name : "no teacher assigned",
+           "Date":item.createdAt,
+           "Description":item.description,
+          "Status":item.status ? <Button color='success' variant="contained" >Active</Button> : <Button color='error' variant="contained">Inactive</Button>,
+         "Update": <BorderColorIcon onClick={() => handleUpdateClassOpen(item._id)} />,
+         "Delete": <DeleteIcon  onClick={() => handelDeleteClass(item._id)}/>,
+         "Action":item.status ? <Button color='error' variant="contained" onClick={()=>handleStatusChange(item._id,false)} >Hide</Button> : <Button color='success' variant="contained" onClick={()=>handleStatusChange(item._id,true)} >Show</Button>
+      
+       }));
 
   
-        // console.log("Formated DAta ==>",formattedData)
+        console.log("Formated DAta ==>",formattedData)
   
-      //  setRows(formattedData);
-      //  setFilterRows(formattedData);
+       setRows(formattedData);
+       setFilterRows(formattedData);
      
       
       
