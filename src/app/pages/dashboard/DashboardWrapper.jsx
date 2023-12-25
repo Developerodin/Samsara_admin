@@ -16,10 +16,10 @@ import {
 import { ChartsWidget170 } from './ChartsWidget170'
 import { AllChargersMap } from './AllChargersMap'
 import { PieWidgetDashboard } from './PieWidgetDashboard'
-import { BASE_URL } from '../../Config/BaseUrl'
+import { BASE_URL, Base_url } from '../../Config/BaseUrl'
 import axios from 'axios'
 
-const DashboardPage = ({users}) => (
+const DashboardPage = ({users,Trainers}) => (
   
   <>
 
@@ -54,10 +54,10 @@ const DashboardPage = ({users}) => (
        
          <CardsWidget7
           className=' '
-          description='Total consumer'
+          description='Total Trainers'
           color='#1B9A8B'
           icon={false}
-          stats={"1812"}
+          stats={Trainers.length}
           labelColor='dark'
           textColor='gray-300'
           />
@@ -122,41 +122,32 @@ const DashboardWrapper = () => {
   const intl = useIntl()
   const token =sessionStorage.getItem('token');
   const [usersrows, setUsersRows] = useState([]);
-  useEffect(()=>{
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/customers/customers
-        `, {
-          headers: { Authorization: `${token}` },
-        });
-        // Assuming the response data is an array of objects with the required properties
-        
-        const data = response.data;
-        const CustomersData=data.data.users;
-        console.log("response chargers==>", CustomersData);
-        if(data && data.status === 'success'){
-          
-  
-          setUsersRows(CustomersData);
-        }
-        else{
-          setUsersRows([]);
-        }
-        
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setUsersRows([]);
+  const[Trainers,setTrainers] = useState([]);
+  const fetchTeachers = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/teacher`); // Replace with your actual API endpoint
+      // setUsers(response.data.data.users);
+      const Data= response.data.data.teachers
+      console.log("Trainer Data ==>",Data)
+      if(Data){
+        setTrainers(Data);
+        const ActiveTrainers=Data.filter((el)=>{
+          return el.status === true;
+        })
+        // setActiveTrainers(ActiveTrainers);
       }
-    };
-  
-    // console.log("UserData", userData);
-    fetchData();
+    } catch (error) {
+      console.error('Error fetching users:', error.message);
+    }
+  };
+  useEffect(()=>{
+    fetchTeachers()
   },[])
 
   return (
     <>
       <PageTitle breadcrumbs={[]}>{intl.formatMessage({id: 'MENU.DASHBOARD'})}</PageTitle>
-      <DashboardPage  users={usersrows}/>
+      <DashboardPage  users={usersrows} Trainers={Trainers}/>
     </>
   )
 }

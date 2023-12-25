@@ -166,16 +166,16 @@ export const UserView = () => {
           <div className="d-flex flex-wrap flex-sm-nowrap mb-3">
             <div className="me-7 mb-4">
               <div className="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                {userData && ProfileData.color ? (
+                {userData && userData.images.length === 0 ? (
                   <span
                     className={`symbol-label bg-light-${ProfileData.color} text-${ProfileData.color} fs-5 fw-bolder`}
                   >
                     {userData.name.charAt(0)}
                   </span>
                 ) : (
-                  ProfileData && (
+                  userData &&  userData.images && (
                     <img
-                      src={toAbsoluteUrl(`${ProfileData.avatar}`)}
+                      src={`${Base_url}api/${userData.images[0].path}`}
                       alt="Metronic"
                     />
                   )

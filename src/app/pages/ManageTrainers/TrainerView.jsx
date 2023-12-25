@@ -165,16 +165,16 @@ export const TrainerView = () => {
           <div className="d-flex flex-wrap flex-sm-nowrap mb-3">
             <div className="me-7 mb-4">
               <div className="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                {teacherData && ProfileData.color ? (
+              {teacherData && teacherData.images.length === 0 ? (
                   <span
                     className={`symbol-label bg-light-${ProfileData.color} text-${ProfileData.color} fs-5 fw-bolder`}
                   >
                     {teacherData.name.charAt(0)}
                   </span>
                 ) : (
-                  ProfileData && (
+                  teacherData &&  teacherData.images && (
                     <img
-                      src={toAbsoluteUrl(`${ProfileData.avatar}`)}
+                      src={`${Base_url}api/${teacherData.images[0].path}`}
                       alt="Metronic"
                     />
                   )

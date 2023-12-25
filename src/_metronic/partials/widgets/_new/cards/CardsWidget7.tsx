@@ -37,7 +37,7 @@ const CardsWidget7 = ({className, description, icon, stats, labelColor, textColo
       </div>
     </div>
     <div className='card-body d-flex flex-column justify-content-end pe-0'>
-      <span className='fs-6 fw-bolder d-block mb-2' style={{color:"white"}}>Today’s consumers</span>
+      {/* <span className='fs-6 fw-bolder d-block mb-2' style={{color:"white"}}>Today’s consumers</span> */}
       <div className='symbol-group symbol-hover flex-nowrap'>
         {items.map((item, index) => (
           <div

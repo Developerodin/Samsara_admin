@@ -7,7 +7,7 @@ import {Dropdown1} from '../../content/dropdown/Dropdown1'
 import {useThemeMode} from '../../layout/theme-mode/ThemeModeProvider'
 import InventoryIcon from '@mui/icons-material/Inventory';
 import EvStationIcon from '@mui/icons-material/EvStation';
-import { BASE_URL } from '../../../../app/Config/BaseUrl'
+import { BASE_URL, Base_url } from '../../../../app/Config/BaseUrl'
 import axios from 'axios'
 import { Button, Switch } from '@mui/material'
 type Props = {
@@ -37,12 +37,15 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
     return chart
   }
   const [CposData,setCposData]=useState<any>(null)
-  const [ChargersfilterRows,setChargersfilterRows] = useState<any>([])
-  const [DcChargers,setDcChargers] = useState([])
-  const [AcChargers,setAcChargers] = useState([])
-  const [ActiveChargers,setActiveChargers] = useState([])
-  const [InActiveChargers,setInActiveChargers] = useState([])
-
+  const [classes, setClasses] = useState([]);
+  const[RecordedClasses,setRecordedClasses] = useState([]);
+  const[totalUsers,setTotalUsers] = useState([])
+  const[Users,setUsers] = useState([])
+  const[CorporateUsers,setCorporateUsers] = useState([]);
+  const[ActiveUsers,setActiveUsers] = useState([])
+  const[CorporateActiveUsers,setCorporateActiveUsers] = useState([])
+  const[Trainers,setTrainers] = useState([]);
+  const[ActiveTrainers,setActiveTrainers] = useState([])
   useEffect(() => {
     const chart = refreshChart()
     return () => {
@@ -52,77 +55,90 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartRef, mode])
-  const fetchChargerData = async () => {
+  const getAllClasses = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/chargers/`, {
-        headers: { Authorization: `${token}` },
-      });
-      // Assuming the response data is an array of objects with the required properties
-      
-      const data = response.data;
-      const ChargerData=data.data.chargers;
-      console.log("response chargers==>", data);
-      if(data && data.status === 'success'){
-           const formattedData = ChargerData.map((item:any) => ({
-          "Name":item.ChargerName,
-          "Station Name":item.ChargerStation,
-          "Location":<span>{item.Latitude},{item.Longitude}</span>,
-          "OCPP ID":item.OCPP_ID,
-          "Address":<span>{item.street},{item.area},{item.city},{item.Pincode},{item.state}</span>,
-          "Status":item.functional,
-          "City":item.city,
-          "ChargerType":item.ChargerType,
-          "Power Rating":"60.00KW",
-          "Connectors":"CCS / GBT/ TYPE 2",
-      }));
-
-      const ChargersDcData = formattedData.filter((item:any) => {
-        return item.ChargerType.toLowerCase() === "dc"
-      });
-
-      const ChargersAcData = formattedData.filter((item:any) => {
-        return item.ChargerType.toLowerCase() === "ac"
-      });
-
-      const ChargersActiveData = formattedData.filter((item:any) => {
-        return item.Status === true
-      });
-
-      const ChargersInActiveData = formattedData.filter((item:any) => {
-        return item.Status === false
-      });
-
+      const response = await axios.get(`${Base_url}api/classes`); // Update the API endpoint accordingly
      
-      setChargersfilterRows(formattedData);
-      setDcChargers(ChargersDcData);
-      setAcChargers(ChargersAcData)
-      setActiveChargers(ChargersActiveData)
-      setInActiveChargers(ChargersInActiveData)
+      const Data = response.data.data
+       if(Data){
+        setClasses(response.data.data);
+       }
       }
-     
+    catch (error) {
+      console.error('Error fetching classes:');
+    }
+  };
+  const getAllRecordedClasses = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/recorded-classes`); // Update the API endpoint accordingly
       
+      const Data = response.data;
+      console.log("REdorder classes",Data)
+      if(Data){
+        setRecordedClasses(Data);
+     };
+    
+      }
+    catch (error) {
+      console.error('Error fetching classes:');
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/users`); // Replace with your actual API endpoint
+      // setUsers(response.data.data.users);
+      const Data= response.data.data.users
+      console.log("User Data ==>",Data)
+      if(Data){
+        const Users = Data.filter((item:any) => {
+          return item.corporate_id === "";
+        });
+
+        const CorporateUsers = Data.filter((item:any) => {
+          return item.corporate_id !== "";
+        });
+
+        const CorporateUsersActive = Data.filter((item:any) => {
+          return item.corporate_id !== "" && item.status ===true
+        });
+
+        const UsersActive = Data.filter((item:any) => {
+          return item.corporate_id === "" && item.status === true
+        });
+        setTotalUsers(Data)
+        setUsers(Users)
+        setCorporateUsers(CorporateUsers)
+        setActiveUsers(UsersActive)
+        setCorporateActiveUsers(CorporateUsersActive);
+      }
     } catch (error) {
-      console.error("Error fetching data:", error);
-      
+      console.error('Error fetching users:');
+    }
+  };
+
+  const fetchTeachers = async () => {
+    try {
+      const response = await axios.get(`${Base_url}api/teacher`); // Replace with your actual API endpoint
+      // setUsers(response.data.data.users);
+      const Data= response.data.data.teachers
+      console.log("Trainer Data ==>",Data)
+      if(Data){
+        setTrainers(Data);
+        const ActiveTrainers=Data.filter((el:any)=>{
+          return el.status === true;
+        })
+        setActiveTrainers(ActiveTrainers);
+      }
+    } catch (error:any) {
+      console.error('Error fetching users:', error.message);
     }
   };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/cpo/users`, {
-          headers: { Authorization: `${token}` },
-        });
-        // Assuming the response data is an array of objects with the required properties
-        console.log("response in dashbord wegit", response.data);
-        setCposData(response.data);
-        
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-    fetchChargerData();
+    fetchUsers();
+    getAllClasses();
+    getAllRecordedClasses();
+    fetchTeachers();
   }, []);
 
   return (
@@ -246,11 +262,11 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
               <div className="m-0">
                 {/*begin::Number*/}
                 <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  {CposData !== null && CposData.length}
+                  14
                 </span>
                 {/*end::Number*/}
                 {/*begin::Desc*/}
-                <span className="text-gray-500 fw-semibold fs-6">Business Profile</span>
+                <span className="text-gray-500 fw-semibold fs-6">Total Companies</span>
                 {/*end::Desc*/}
               </div>
               {/*end::Stats*/}
@@ -300,16 +316,16 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
 
                   <div >
                   <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  1789
+                  {CorporateUsers && CorporateUsers.length}
                 </span>
-                <span className="text-gray-500 fw-semibold fs-6">Active Users</span>
+                <span className="text-gray-500 fw-semibold fs-6">Corporate Users</span>
                   </div>
 
                   <div >
                   <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                 23
+                 {Users && Users.length}
                 </span>
-                <span className="text-gray-500 fw-semibold fs-6">Inactive Users</span>
+                <span className="text-gray-500 fw-semibold fs-6"> Users</span>
                   </div>
                
                 
@@ -362,12 +378,12 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
               <div className="m-0">
                 {/*begin::Number*/}
                 <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  3,214
+                  {classes && classes.length}
                 </span>
                 {/*end::Number*/}
                 {/*begin::Desc*/}
                 <span className="text-gray-500 fw-semibold fs-6">
-                  Total Products Sold
+                  Total Classes
                 </span>
                 {/*end::Desc*/}
               </div>
@@ -411,12 +427,12 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
               <div className="m-0">
                 {/*begin::Number*/}
                 <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  64,280
+                  {RecordedClasses && RecordedClasses.length}
                 </span>
                 {/*end::Number*/}
                 {/*begin::Desc*/}
                 <span className="text-gray-500 fw-semibold fs-6">
-                  Total Revenue
+                  Recorded Classes
                 </span>
                 {/*end::Desc*/}
               </div>
@@ -464,23 +480,23 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
                 <div className="d-flex justify-content-between">
                 <div >
                   <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  1500
+                  {totalUsers && totalUsers.length}
                 </span>
-                <span className="text-gray-500 fw-semibold fs-6">Total Orders</span>
+                <span className="text-gray-500 fw-semibold fs-6">Total Users</span>
                   </div>
 
                   <div >
                   <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  1450
+                  {ActiveUsers && CorporateActiveUsers && ActiveUsers.length + CorporateActiveUsers.length}
                 </span>
-                <span className="text-gray-500 fw-semibold fs-6">Accept</span>
+                <span className="text-gray-500 fw-semibold fs-6">Active</span>
                   </div>
 
                   <div >
                   <span className="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                  50
+                  {totalUsers && ActiveUsers && CorporateActiveUsers && totalUsers.length - (ActiveUsers.length + CorporateActiveUsers.length)}
                 </span>
-                <span className="text-gray-500 fw-semibold fs-6">Reject</span>
+                <span className="text-gray-500 fw-semibold fs-6">In Active</span>
                   </div>
                
                 
