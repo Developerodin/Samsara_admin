@@ -15,10 +15,30 @@ import { Base_url } from "../../Config/BaseUrl";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-
+import Drawer from '@mui/material/Drawer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 export const TrainerView = () => {
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const [state2, setState2] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const [state3, setState3] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
   const { id } = useParams();
   const navigate = useNavigate();
   const Data = [
@@ -158,6 +178,112 @@ export const TrainerView = () => {
     setProfileData(Data[0]);
     fetchData();
   }, []);
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+  const list = (anchor) => (
+    <Box
+      sx={{ width:450,padding:"20px" }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+
+      {teacherData && 
+              teacherData.qualification.map((el,index)=>{
+               
+                return <div>
+                   { 
+                    index  % 3 === 0 &&  <div style={{height:"30px",backgroundColor:"orange",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                    <p style={{color:"#fff",marginTop:"10px"}}>Qualification </p>
+                   </div>
+                   }
+                  
+                    <div style={{marginTop:"20px",textAlign:"left"}}>
+                    <p>  <span style={{fontSize:"14px",fontWeight:"bold"}}>{el.label}  : </span>  <span style={{fontSize:"14px",fontWeight:"bold"}}>{el.value} </span>    </p>
+                      </div>
+                  </div>
+               
+              })
+            }
+    </Box>
+  );
+
+  const toggleDrawer2 = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState2({ ...state2, [anchor]: open });
+  };
+
+  const list2 = (anchor) => (
+    <Box
+      sx={{ width:450,padding:"20px" }}
+      role="presentation"
+      onClick={toggleDrawer2(anchor, false)}
+      onKeyDown={toggleDrawer2(anchor, false)}
+    >
+
+      {teacherData && 
+              teacherData.additional_courses.map((el,index)=>{
+               
+                return <div>
+                   { 
+                    index  % 2 === 0 &&  <div style={{height:"30px",backgroundColor:"orange",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                    <p style={{color:"#fff",marginTop:"10px"}}>Additional Courses </p>
+                   </div>
+                   }
+                  
+                    <div style={{marginTop:"20px",textAlign:"left"}}>
+                    <p>  <span style={{fontSize:"14px",fontWeight:"bold"}}>{el.label}  : </span>  <span style={{fontSize:"14px",fontWeight:"bold"}}>{el.value} </span>    </p>
+                      </div>
+                  </div>
+               
+              })
+            }
+    </Box>
+  );
+
+  const toggleDrawer3 = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState3({ ...state2, [anchor]: open });
+  };
+
+  const list3 = (anchor) => (
+    <Box
+      sx={{ width:450,padding:"20px" }}
+      role="presentation"
+      onClick={toggleDrawer3(anchor, false)}
+      onKeyDown={toggleDrawer3(anchor, false)}
+    >
+ <div style={{height:"30px",backgroundColor:"orange",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                    <p style={{color:"#fff",marginTop:"10px"}}>Achievements </p>
+                   </div>
+      {teacherData && 
+              teacherData.achievements.map((el,index)=>{
+               
+                return <div>
+                  
+                  
+                    <div style={{marginTop:"20px",textAlign:"left"}}>
+                    <p>  <span style={{fontSize:"14px",fontWeight:"bold"}}>{el}</span> </p>
+                      </div>
+                  </div>
+               
+              })
+            }
+    </Box>
+  );
   return (
     <>
       <div className="card mb-5 mb-xl-10">
@@ -387,8 +513,8 @@ export const TrainerView = () => {
             <label className="col-lg-4 fw-bold text-muted">Qualification</label>
 
             <div className="col-lg-8">
-              <a href="#" className="fw-bold fs-6 text-dark text-hover-primary">
-              <Accordion style={{marginTop:"-5px",width:"60%"}}>
+              <a  className="fw-bold fs-6 text-dark text-hover-primary">
+              {/* <Accordion style={{marginTop:"-5px",width:"60%"}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -407,8 +533,8 @@ export const TrainerView = () => {
               })
             }
         </AccordionDetails>
-      </Accordion>
-            
+      </Accordion> */}
+      <Button variant="outlined" onClick={toggleDrawer("right", true)}>View</Button>
               </a>
             </div>
           </div>
@@ -417,27 +543,10 @@ export const TrainerView = () => {
             <label className="col-lg-4 fw-bold text-muted">Additional courses </label>
 
             <div className="col-lg-8">
-              <a href="#" className="fw-bold fs-6 text-dark text-hover-primary">
-              <Accordion style={{marginTop:"-5px",width:"60%"}}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>View</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        {teacherData && 
-              teacherData.additional_courses.map((el,index)=>{
-               
-                return <div>
-                    <p>{el.label} = {el.value}</p>
-                  </div>
-               
-              })
-            }
-        </AccordionDetails>
-      </Accordion>
+              <a className="fw-bold fs-6 text-dark text-hover-primary">
+            
+
+      <Button variant="outlined" onClick={toggleDrawer2("right", true)}>View</Button>
             
               </a>
             </div>
@@ -447,28 +556,9 @@ export const TrainerView = () => {
             <label className="col-lg-4 fw-bold text-muted">Achievements </label>
 
             <div className="col-lg-8">
-              <a href="#" className="fw-bold fs-6 text-dark text-hover-primary">
-              <Accordion style={{marginTop:"-5px",width:"60%"}}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>View</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        {teacherData && 
-              teacherData.achievements.map((el,index)=>{
-               
-                return <div>
-                    <p>{el}</p>
-                  </div>
-               
-              })
-            }
-        </AccordionDetails>
-      </Accordion>
-            
+              <a  className="fw-bold fs-6 text-dark text-hover-primary">
+           
+      <Button variant="outlined" onClick={toggleDrawer3("right", true)}>View</Button>
               </a>
             </div>
           </div>
@@ -499,6 +589,30 @@ export const TrainerView = () => {
           <TablesWidget5 className='card-xxl-stretch mb-5 mb-xl-10' />
         </div>
       </div> */}
+
+    <Drawer
+            anchor={`right`}
+            open={state[`right`]}
+            onClose={toggleDrawer(`right`, false)}
+          >
+            {list(`right`)}
+          </Drawer>
+
+          <Drawer
+            anchor={`right`}
+            open={state2[`right`]}
+            onClose={toggleDrawer2(`right`, false)}
+          >
+            {list2(`right`)}
+          </Drawer>
+
+          <Drawer
+            anchor={`right`}
+            open={state3[`right`]}
+            onClose={toggleDrawer3(`right`, false)}
+          >
+            {list3(`right`)}
+          </Drawer>
     </>
   );
 };
