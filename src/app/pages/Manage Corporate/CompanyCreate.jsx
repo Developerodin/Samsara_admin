@@ -48,11 +48,11 @@ export const CompanyCreate = () => {
     );
   const [personName, setPersonName] = React.useState([]);
   const [formData, setFormData] = useState({
-    ownerName: '',
-    mobile: '',
-    companyStartDate: '',
     companyName: '',
-    companyId: '',
+    consultPersonName: '',
+    designation: '',
+    email:"",
+    mobile: '',
     domain: '',
     numberOfEmployees: '',
     gstNumber: '',
@@ -133,19 +133,51 @@ export const CompanyCreate = () => {
             <div style={{ marginTop: 30 }}>
               <Grid container spacing={3}>
               <Grid item xs={4}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Company Name"
+                    variant="outlined"
+                    style={{ width: "100%" }}
+                    name="companyName"
+                    value={formData.companyName}
+                    onChange={(e)=>handleChange(e)}
+                  />
+                </Grid>
+              <Grid item xs={4}>
                     <TextField
                       id="outlined-basic"
-                      label="Owner Name"
+                      label="Consult Person Name"
                       variant="outlined"
                       style={{ width: "100%" }}
-                      name="ownerName"
-                      value={formData.ownerName}
+                      name="consultPersonName"
+                      value={formData.consultPersonName}
                       onChange={(e)=>handleChange(e)}
                     />
                   </Grid>
              
-                 
+                  <Grid item xs={4}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Designation"
+                      variant="outlined"
+                      style={{ width: "100%" }}
+                      name="designation"
+                      value={formData.designation}
+                      onChange={(e)=>handleChange(e)}
+                    />
+                  </Grid>
                 
+                  <Grid item xs={4}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Email"
+                      variant="outlined"
+                      style={{ width: "100%" }}
+                      name="email"
+                      value={formData.email}
+                      onChange={(e)=>handleChange(e)}
+                    />
+                  </Grid>
 
                 <Grid item xs={4}>
                   <TextField
@@ -158,43 +190,6 @@ export const CompanyCreate = () => {
                       onChange={(e)=>handleChange(e)}
                   />
                 </Grid>
-
-                <Grid item xs={12} sm={4} md={4}>
-                  <div>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DateField
-                        label="DOB"
-                        value={formData.companyStartDate}
-                        onChange={handleDateChange}
-                        format="DD-MM-YYYY"
-                        style={{ width: "100%" }}
-                      />
-                    </LocalizationProvider>
-                  </div>
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Company Name"
-                    variant="outlined"
-                    style={{ width: "100%" }}
-                    name="companyName"
-                    value={formData.companyName}
-                    onChange={(e)=>handleChange(e)}
-                  />
-                </Grid>
-
-                <Grid item xs={4}>
-                    <TextField
-                      id="outlined-basic"
-                      label="Company Id"
-                      variant="outlined"
-                      style={{ width: "100%" }}
-                      name="companyId"
-                      value={formData.companyId}
-                      onChange={(e)=>handleChange(e)}
-                    />
-                  </Grid>
 
                 <Grid item xs={4}>
                   <TextField

@@ -16,15 +16,17 @@ import axios from 'axios';
 import { Base_url } from '../../Config/BaseUrl';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 const column = [
-  {name:"Company Id"},
-  { name: "Owner" },
-  { name: "Company Name" },
-  {name:"Mobile Number"},
+  {name:"Company Name"},
+  { name: "Consult Person Name" },
+  { name: "Email" },
+  {name:"Mobile"},
+  {name:"Designation"},
+  {name:"Domain"},
   {name: "Employees"},
-  { name: "Created At" },
-  {name:"City"},
+  {name: "GST"},
+  {name:"Address"},
+  {name: "Created At" },
   {name:"Status"},
-  {name:"View"},
   { name: "Update" },
   { name: "Delete" },
 ];
@@ -56,15 +58,18 @@ export const Company = () => {
       const Data = response.data
       
       const formattedData = Data.map((item) => ({
-        "CompanyId":item.companyId,
-        "Owner":item.ownerName,
-       "CompanyName":item.companyName,
-       "Phone":item.mobile,
-       "Total Users":item.numberOfEmployees,
-       "Created At":item.companyStartDate,
-       "City":item.city,
+        "Company Name":item.companyName,
+        "Consult Person Name":item.consultPersonName,
+       "Email":item.email,
+       "Mobile":item.mobile,
+       "Designation":item.designation,
+       "Domain":item.domain,
+       "Employees":item.numberOfEmployees,
+       "Gst":item.numberOfEmployees,
+       "Address":<span>{item.address},{item.pincode},{item.city},{item.country}</span>,
+       "Created At":item.createdAt,
       "Status":item.status ? <Button color='success' variant="contained" >Active</Button> : <Button color='error' variant="contained">Inactive</Button>,
-       "View":<RemoveRedEyeIcon />, 
+      //  "View":<RemoveRedEyeIcon />, 
      "Update": <BorderColorIcon onClick={() => handleUpdateCompany(item._id)} />,
      "Delete": <DeleteIcon  onClick={() => handleDelete(item._id)}/>,
      

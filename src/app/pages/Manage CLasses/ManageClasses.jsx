@@ -306,6 +306,7 @@ useEffect(() => {
       console.log("Meeting start =>",id)
       handleOuthAccessToken().then((res)=>{
         console.log("Token in fun ==>",res)
+        setZoomToken(res)
         createZoomMeeting(res,Data,id);
       })
     }
@@ -323,10 +324,13 @@ useEffect(() => {
     }
 
     const handelZoomMeetingEnd=async(id)=>{
-      console.log("delete Meeting",id)
-     
+      console.log("delete Meeting",OauthuserToken,"Id===============>",meetingNumberMain)
+      const data = {
+        token: OauthuserToken,
+        meetingId:meetingNumberMain
+      };
       try {
-        const res = await axios.delete(`${Base_url}api/classes/end_meeting/${id}`, {
+        const res = await axios.post(`${Base_url}api/classes/end_meeting/${id}`,data, {
           // headers: { "Authorization": `${token}` }
         });
         console.log("res Customer delete === ==>", res);
