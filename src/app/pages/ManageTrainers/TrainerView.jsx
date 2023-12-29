@@ -236,7 +236,7 @@ export const TrainerView = () => {
                
                 return <div>
                    { 
-                    index  % 2 === 0 &&  <div style={{height:"30px",backgroundColor:"orange",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                    index  % 3 === 0 &&  <div style={{height:"30px",backgroundColor:"orange",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center"}}>
                     <p style={{color:"#fff",marginTop:"10px"}}>Additional Courses </p>
                    </div>
                    }
@@ -370,7 +370,7 @@ export const TrainerView = () => {
                           className="svg-icon-3 svg-icon-success me-2"
                         />
                         <div className="fs-2 fw-bolder">
-                          {ProfileData && ProfileData.totalExperience}
+                        {teacherData && teacherData.teachingExperience} years
                         </div>
                       </div>
 
