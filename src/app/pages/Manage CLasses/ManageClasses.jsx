@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Card, CardContent, TextField } from '@mui/material'
+import { Autocomplete, Box, Button, Card, CardContent, TextField,InputAdornment } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { ThemColor } from '../../Them/ThemColor'
 import TuneIcon from '@mui/icons-material/Tune';
@@ -11,6 +11,8 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import ZoomMtgEmbedded from '@zoomus/websdk/embedded';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 const KJUR = require('jsrsasign')
 const column=[
     {name:"Title"},
@@ -39,6 +41,7 @@ const [userToken, setUserToken] = useState(null);
 const [OauthuserToken, setOauthUserToken] = useState(null);
 const [meetingNumberMain, setMeetingNumber] = useState(null);
 const [meetingPassowrdMain, setMeetingPassword] = useState(null);
+const [searchInput, setSearchInput] = React.useState('');
 const client = ZoomMtgEmbedded.createClient();
 var authEndpoint = Base_url
 var sdkKey = 'TsFvuPFLTeKf7_bNBWggPA'
@@ -392,7 +395,20 @@ useEffect(() => {
       }
     };
 
-  
+    const handleSearch = () => {
+      const filteredData = rows.filter((row) =>
+        Object.values(row)
+          .filter((value) => typeof value === 'string') // Filter only string values
+          .some((value) =>
+            value.toLowerCase().includes(searchInput.toLowerCase())
+          )
+      );
+      setFilterRows(filteredData);
+    };
+    const handleResetFilter = () => {
+      setSearchInput('');
+      setFilterRows(rows);
+    };
 
     useEffect(() => {
       // Fetch all classes when the component mounts
@@ -411,24 +427,28 @@ useEffect(() => {
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
            
 
-            <Box style={{width:"30%"}}>
-            <Autocomplete
-        freeSolo
-        id="free-solo-2-demo"
-        disableClearable
-        options={rows.map((option) => option.Name)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search..."
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
-        )}
-      />
+          <Box sx={{marginTop:"30px",display:"flex",alignItems:"center"}}>
+      <Box>
+        <Box sx={{display:"flex", width:"100%"}}>
+            {/* <TextField fullWidth label="Search" /> */}
+            
+            <TextField
+          label="Search"
+          id="outlined-start-adornment"
+          size='small'
+          sx={{ m: 1, width: '100%' }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+          }}
+          value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+        />
             </Box>
+        </Box>
+  
+        <Button  sx={{marginLeft:"20px"}} variant="contained" onClick={handleSearch}> Search</Button>
+        <Button sx={{marginLeft:"20px"}} variant="outlined" onClick={handleResetFilter}> <FilterAltIcon sx={{marginRight:"10px"}} />Reset Filter</Button>
+      </Box>
 
             <Box >
             <Button
@@ -452,7 +472,7 @@ useEffect(() => {
 
        <Box style={{marginTop:"-2px"}}>
        
-          <GenralTabel column={column} rows={rows} />
+          <GenralTabel column={column} rows={filterRows} />
         
        </Box>
     </div>

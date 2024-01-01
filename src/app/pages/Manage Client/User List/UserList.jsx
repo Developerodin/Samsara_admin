@@ -5,7 +5,7 @@ import UserHeader from './Components/UserHeader'
 import { KTCard } from '../../../../_metronic/helpers'
 import { GenralTabel } from '../../../TabelComponents/GenralTable'
 import MapLocation from '../../../MapLocation/MapLocation'
-import { Button, Switch,Modal,Box,Typography,TextField, Card, CardContent } from '@mui/material'
+import { Button, Switch,Modal,Box,Typography,TextField, Card, CardContent,InputAdornment } from '@mui/material'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
@@ -29,6 +29,8 @@ import TuneIcon from '@mui/icons-material/Tune';
 import { AddCircle } from '@mui/icons-material';
 import { ThemColor } from '../../../Them/ThemColor'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 const UserList = () => {
   const navigate = useNavigate();
   const token =sessionStorage.getItem('token');
@@ -73,6 +75,7 @@ const UserList = () => {
   }
   const [userWalletHistory,setUserWalletHistory]=useState([]);
   const [userWalletValues,setUserWalletValues]=useState(initialValuesWallet);
+  
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -621,6 +624,21 @@ const UserList = () => {
     navigate("/add_user");
   }
 
+  const handleSearch = () => {
+    const filteredData = rows.filter((row) =>
+      Object.values(row)
+        .filter((value) => typeof value === 'string') // Filter only string values
+        .some((value) =>
+          value.toLowerCase().includes(searchInput.toLowerCase())
+        )
+    );
+    setFilterRows(filteredData);
+  };
+  const handleResetFilter = () => {
+    setSearchInput('');
+    setFilterRows(rows);
+  };
+
  const data = "26.509904,75.410153";
   return (
     <div>
@@ -629,24 +647,28 @@ const UserList = () => {
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
            
 
-            <Box style={{width:"30%"}}>
-            <Autocomplete
-        freeSolo
-        id="free-solo-2-demo"
-        disableClearable
-        options={rows.map((option) => option.Name)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search..."
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
-        )}
-      />
+          <Box sx={{marginTop:"30px",display:"flex",alignItems:"center"}}>
+      <Box>
+        <Box sx={{display:"flex", width:"100%"}}>
+            {/* <TextField fullWidth label="Search" /> */}
+            
+            <TextField
+          label="Search"
+          id="outlined-start-adornment"
+          size='small'
+          sx={{ m: 1, width: '100%' }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+          }}
+          value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+        />
             </Box>
+        </Box>
+  
+        <Button  sx={{marginLeft:"20px"}} variant="contained" onClick={handleSearch}> Search</Button>
+        <Button sx={{marginLeft:"20px"}} variant="outlined" onClick={handleResetFilter}> <FilterAltIcon sx={{marginRight:"10px"}} />Reset Filter</Button>
+      </Box>
 
             <Box >
             <Button

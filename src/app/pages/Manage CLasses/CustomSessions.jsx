@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Card, CardContent, TextField } from '@mui/material'
+import { Autocomplete, Box, Button, Card, CardContent, TextField,InputAdornment } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { ThemColor } from '../../Them/ThemColor'
 import TuneIcon from '@mui/icons-material/Tune';
@@ -11,6 +11,8 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import ZoomMtgEmbedded from '@zoomus/websdk/embedded';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 const KJUR = require('jsrsasign')
 const column=[
     {name:"Trainer"},
@@ -32,7 +34,7 @@ export const CustomSessions = () => {
     const [update,setupdate] = useState(0)
     const [zoomToken, setZoomToken] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [searchInput, setSearchInput] = React.useState('');
     const handelCustomSessionsAdd = ()=>{
 
     }
@@ -102,7 +104,20 @@ export const CustomSessions = () => {
     };
 
 
-   
+    const handleSearch = () => {
+      const filteredData = rows.filter((row) =>
+        Object.values(row)
+          .filter((value) => typeof value === 'string') // Filter only string values
+          .some((value) =>
+            value.toLowerCase().includes(searchInput.toLowerCase())
+          )
+      );
+      setFilterRows(filteredData);
+    };
+    const handleResetFilter = () => {
+      setSearchInput('');
+      setFilterRows(rows);
+    };
        
 
   
@@ -124,24 +139,28 @@ export const CustomSessions = () => {
           <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
            
 
-            <Box style={{width:"30%"}}>
-            <Autocomplete
-        freeSolo
-        id="free-solo-2-demo"
-        disableClearable
-        options={rows.map((option) => option.Name)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search..."
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
-        )}
-      />
+          <Box sx={{marginTop:"30px",display:"flex",alignItems:"center"}}>
+      <Box>
+        <Box sx={{display:"flex", width:"100%"}}>
+            {/* <TextField fullWidth label="Search" /> */}
+            
+            <TextField
+          label="Search"
+          id="outlined-start-adornment"
+          size='small'
+          sx={{ m: 1, width: '100%' }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+          }}
+          value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+        />
             </Box>
+        </Box>
+  
+        <Button  sx={{marginLeft:"20px"}} variant="contained" onClick={handleSearch}> Search</Button>
+        <Button sx={{marginLeft:"20px"}} variant="outlined" onClick={handleResetFilter}> <FilterAltIcon sx={{marginRight:"10px"}} />Reset Filter</Button>
+      </Box>
 
             <Box >
         
@@ -158,7 +177,7 @@ export const CustomSessions = () => {
 
        <Box style={{marginTop:"-2px"}}>
        
-          <GenralTabel column={column} rows={rows} />
+          <GenralTabel column={column} rows={filterRows} />
         
        </Box>
     </div>
