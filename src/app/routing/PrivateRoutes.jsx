@@ -84,6 +84,8 @@ import { AddNewRecording } from '../pages/Manage CLasses/AddNewRecording'
 import { UserUpdate } from '../pages/Manage Corporate/UserUpdate'
 import { PersonalUserUpdate } from '../pages/Manage Client/User List/PersonalUserUpdate'
 import { TrainerUpdate } from '../pages/ManageTrainers/TrainerUpdate'
+import { UpdateClasses } from '../pages/Manage CLasses/UpdateClasses'
+import { UpdateRecordedClass } from '../pages/Manage CLasses/UpdateRecordedClass'
 
 
 
@@ -408,6 +410,14 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
+        <Route
+          path='classes/class_update/:id'
+          element={
+            <SuspensedView>
+              <UpdateClasses/>
+            </SuspensedView>
+          }
+        />
 
 <Route
           path='recorded_classes/*'
@@ -417,7 +427,14 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-
+<Route
+          path='recorded_classes/update/:id*'
+          element={
+            <SuspensedView>
+              <UpdateRecordedClass/>
+            </SuspensedView>
+          }
+        />
 <Route
           path='recorded_classes/add_class_recording/*'
           element={

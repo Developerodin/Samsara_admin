@@ -286,9 +286,7 @@ useEffect(() => {
     }
 
     const handleUpdateClassOpen=(id)=>{
-      console.log("Customer Update  Open");
-      // getCustomerById(id);
-      // handleOpen();
+      navigate(`class_update/${id}`)
     }
   
     const handelDeleteClass=async(id)=>{

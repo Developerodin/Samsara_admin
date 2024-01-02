@@ -45,9 +45,7 @@ export const RecordedClasses = () => {
     }
 
     const handleUpdateClassOpen=(id)=>{
-      console.log("Customer Update  Open");
-      // getCustomerById(id);
-      // handleOpen();
+      navigate(`update/${id}`)
     }
   
     const handelDeleteClass=async(id)=>{
