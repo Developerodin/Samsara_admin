@@ -81,6 +81,9 @@ import { ZoomMeeetingRoom } from '../pages/Manage CLasses/ZoomMeeetingRoom'
 import { RecordedClasses } from '../pages/Manage CLasses/RecordedClasses'
 import { CustomSessions } from '../pages/Manage CLasses/CustomSessions'
 import { AddNewRecording } from '../pages/Manage CLasses/AddNewRecording'
+import { UserUpdate } from '../pages/Manage Corporate/UserUpdate'
+import { PersonalUserUpdate } from '../pages/Manage Client/User List/PersonalUserUpdate'
+import { TrainerUpdate } from '../pages/ManageTrainers/TrainerUpdate'
 
 
 
@@ -134,6 +137,14 @@ const PrivateRoutes = () => {
           }
         />
         <Route
+          path='users-edit/:id'
+          element={
+            <SuspensedView>
+              <UserUpdate />
+            </SuspensedView>
+          }
+        />
+        <Route
           path='orders/*'
           element={
             <SuspensedView>
@@ -176,12 +187,29 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
+        <Route
+          path='trainers/trainer_update/:id*'
+          element={
+            <SuspensedView>
+              <TrainerUpdate />
+            </SuspensedView>
+          }
+        />
 
 <Route
           path='clients/user_view/:id*'
           element={
             <SuspensedView>
               <UserView />
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='clients/personalUserUpdate/:id*'
+          element={
+            <SuspensedView>
+              <PersonalUserUpdate />
             </SuspensedView>
           }
         />

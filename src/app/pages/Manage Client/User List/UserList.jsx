@@ -581,6 +581,7 @@ const UserList = () => {
 
   const handleUpdateCustomerOpen=(id)=>{
     console.log("Customer Update  Open");
+    navigate(`personalUserUpdate/${id}`)
     // getCustomerById(id);
     // handleOpen();
   }

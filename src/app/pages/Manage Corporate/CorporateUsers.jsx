@@ -43,6 +43,9 @@ export const CorporateUsers = () => {
   const handelAddNew=()=>{
     navigate("/add_corporate_user");
   }
+  const handelEdit=(id)=>{
+    navigate(`/users-edit/${id}`);
+  }
   const handleUpdateCustomerOpen=(id)=>{
     console.log("Customer Update  Open");
     // getCustomerById(id);
@@ -99,7 +102,7 @@ export const CorporateUsers = () => {
          "View":<RemoveRedEyeIcon onClick={()=>handelUserView(item._id)}/>,
          // "Functional":<Switch checked={item.functional}  onChange={(e)=>handleSwitchChange(e,item._id)} />,
          
-       Update: <BorderColorIcon onClick={() => handleUpdateCustomerOpen(item._id)} />,
+       Update: <BorderColorIcon onClick={() => handelEdit(item._id)} />,
        Delete: <DeleteIcon  onClick={() => handelDeleteCustomer(item._id)}/>
      }));
   //    const ActiveUsers = CustomersData.filter((item) => {

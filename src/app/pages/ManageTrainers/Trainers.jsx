@@ -66,6 +66,7 @@ export const Trainers = () => {
     console.log("Customer Update  Open");
     // getCustomerById(id);
     // handleOpen();
+    navigate(`trainer_update/${id}`)
   }
 
   const handelDeleteCustomer=async(id)=>{
