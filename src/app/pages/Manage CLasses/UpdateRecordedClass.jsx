@@ -12,7 +12,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs';
+import { useParams } from 'react-router-dom';
 export const UpdateRecordedClass = () => {
+  const {id} = useParams()
   const [newClass, setNewClass] = useState({
     title: '',
     description: '',
@@ -36,9 +38,9 @@ export const UpdateRecordedClass = () => {
     }));
   };
 
-  const createNewClass = async () => {
+  const UpdateRecordedClass = async () => {
     try {
-      const response = await axios.post(`${Base_url}api/recorded-classes`, newClass);
+      const response = await axios.put(`${Base_url}api/recorded-classes/${id}`, newClass);
       // setClasses((prevClasses) => [...prevClasses, response.data.data]);
       setNewClass({
         title: '',
@@ -70,9 +72,37 @@ export const UpdateRecordedClass = () => {
       console.error('Error fetching users:', error.message);
     }
   };
+  const fetchRecordedClassById = async (id) => {
+    try {
+      const response = await axios.get(`${Base_url}api/recorded-classes/${id}`); // Replace with your actual API endpoint
+      // setUsers(response.data.data.users);
+      const Data= response.data
+      console.log("User Data edit ==>",Data)
+      if(Data){
+        const formattedDate = dayjs(Data.schedule);
+        console.log("Formated Data ===>", formattedDate)
+        setNewClass( {
+          title: Data.title,
+          description: Data.description,
+          teacher: Data.teacher,
+          classRecordingLink:Data.classRecordingLink,
+          
+        })
+      
 
+         
+
+    // Update the state with the formatted date
+   
+    
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error.message);
+    }
+  };
   useEffect(()=>{
     fetchTeachers();
+    fetchRecordedClassById(id)
   },[])
 
 
@@ -179,9 +209,9 @@ export const UpdateRecordedClass = () => {
                       variant="contained"
                       size="large"
                       style={{ backgroundColor: "#EE731B" }}
-                      onClick={createNewClass}
+                      onClick={UpdateRecordedClass}
                     >
-                      Next
+                      Update
                     </Button>
                   </div>
                 </Grid>

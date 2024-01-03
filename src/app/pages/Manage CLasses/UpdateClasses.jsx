@@ -12,6 +12,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs';
+import { useParams } from 'react-router-dom';
 export const UpdateClasses = () => {
   const [newClass, setNewClass] = useState({
     title: '',
@@ -21,7 +22,7 @@ export const UpdateClasses = () => {
     password:""
   });
 
-
+  const {id} = useParams()
   const [TeachersData,setTeachersData] = useState([])
 
   const handleDateChange = (date) => {
@@ -36,15 +37,16 @@ export const UpdateClasses = () => {
     }));
   };
 
-  const createNewClass = async () => {
+  const UpdateClass = async () => {
     try {
-      const response = await axios.post(`${Base_url}api/classes`, newClass);
+      const response = await axios.put(`${Base_url}api/classes/${id}`, newClass);
       // setClasses((prevClasses) => [...prevClasses, response.data.data]);
       setNewClass({
         title: '',
         description: '',
         teacher: '',
         schedule: dayjs(),
+        password:""
       });
       handelGoBack()
     } catch (error) {
@@ -70,8 +72,38 @@ export const UpdateClasses = () => {
     }
   };
 
+  const fetchClassById = async (id) => {
+    try {
+      const response = await axios.get(`${Base_url}api/classes/${id}`); // Replace with your actual API endpoint
+      // setUsers(response.data.data.users);
+      const Data= response.data.data
+      console.log("User Data edit ==>",Data)
+      if(Data){
+        const formattedDate = dayjs(Data.schedule);
+        console.log("Formated Data ===>", formattedDate)
+        setNewClass( {
+          title: Data.title,
+          description: Data.description,
+          teacher: Data.teacher, // You might want to select a teacher from a dropdown
+          schedule: dayjs(),
+          password:Data.password
+        })
+      
+
+         
+
+    // Update the state with the formatted date
+   
+    
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error.message);
+    }
+  };
+
   useEffect(()=>{
     fetchTeachers();
+    fetchClassById(id)
   },[])
 
 
@@ -191,9 +223,9 @@ export const UpdateClasses = () => {
                       variant="contained"
                       size="large"
                       style={{ backgroundColor: "#EE731B" }}
-                      onClick={createNewClass}
+                      onClick={UpdateClass}
                     >
-                      Next
+                      Update
                     </Button>
                   </div>
                 </Grid>
