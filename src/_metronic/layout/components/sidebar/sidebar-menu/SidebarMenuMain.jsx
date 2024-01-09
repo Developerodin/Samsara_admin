@@ -133,14 +133,14 @@ const SidebarMenuMain = () => {
            
           />
   
-        <div className='menu-item mt-5'>
+        {/* <div className='menu-item mt-5'>
           <div className='menu-content'>
             <span className='menu-heading fw-bold  fs-7'>Billing & Payments</span>
           </div>
-        </div>
+        </div> */}
   
   
-              <SidebarMenuItem
+              {/* <SidebarMenuItem
               to='/billing/alltransaction/'
               icon='/media/icons/duotune/layouts/lay008.svg'
               title='All Transactions'
@@ -152,7 +152,7 @@ const SidebarMenuMain = () => {
               icon='/media/icons/duotune/abstract/abs014.svg'
               title='Discount Coupons'
               fontIcon='bi-layers'
-            />
+            /> */}
     
   
   
@@ -162,7 +162,7 @@ const SidebarMenuMain = () => {
   
        
   
-  <div className='menu-item mt-5'>
+  {/* <div className='menu-item mt-5'>
           <div className='menu-content'>
             <span className='menu-heading fw-bold  fs-7'>Settings</span>
           </div>
@@ -181,7 +181,7 @@ const SidebarMenuMain = () => {
       icon='/media/icons/duotune/abstract/abs027.svg'
       title='Access Management'
       fontIcon='bi-layers'
-    />
+    /> */}
   
     </>
  
