@@ -86,6 +86,10 @@ import { PersonalUserUpdate } from '../pages/Manage Client/User List/PersonalUse
 import { TrainerUpdate } from '../pages/ManageTrainers/TrainerUpdate'
 import { UpdateClasses } from '../pages/Manage CLasses/UpdateClasses'
 import { UpdateRecordedClass } from '../pages/Manage CLasses/UpdateRecordedClass'
+import { ZoomCdn } from '../pages/Manage CLasses/ZoomCdn'
+
+
+
 
 
 
@@ -401,7 +405,22 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-
+        <Route
+          path="classes/zoom-cdn/*"
+          element={
+            <SuspensedView>
+              <ZoomCdn />
+            </SuspensedView>
+          }
+        />
+        {/* <Route
+          path="classes/zoom-cdn/*"
+          element={
+            <SuspensedView>
+              <ZoomCdn />
+            </SuspensedView>
+          }
+        /> */}
 <Route
           path='classes/class_view/:id'
           element={

@@ -55,7 +55,8 @@ var SECRET="C7Dm4JuZ2QXoN0bM2OYTw5JxZvjPK1y9"
     setTimeout(()=>{
       startMeeting(sdkJWT,data)
     },1000)
-    
+    console.log(" M N in room ======>",ZoomMeetingNumber.number)
+    console.log("SDK JWT in room ======>",sdkJWT)
     return sdkJWT
   }
   

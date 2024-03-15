@@ -321,7 +321,7 @@ useEffect(() => {
       pass:data.password,
       userToken:userToken
       }
-      navigate(`zoom-meeting/`, { state: { ZoomMeetingNumber } });
+      navigate(`zoom-cdn/`, { state: { ZoomMeetingNumber } });
     }
 
     const handelZoomMeetingEnd=async(id)=>{
