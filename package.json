@@ -51,7 +51,6 @@
     "sass": "1.50.1",
     "socicon": "3.0.5",
     "socket.io-client": "^4.7.1",
-    "win-node-env": "^0.6.1",
     "yup": "0.32.11"
   },
   "devDependencies": {
