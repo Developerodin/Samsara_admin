@@ -222,7 +222,7 @@ export const CorporateUsersView = () => {
                       path="/media/icons/duotune/communication/com001.svg"
                       className="svg-icon-4 me-1"
                     />
-                    {userData && userData.company_name}
+                    {userData && userData.company_name.companyName}
                   </a>
                   } 
                   

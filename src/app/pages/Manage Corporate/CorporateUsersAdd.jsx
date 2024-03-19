@@ -108,12 +108,13 @@ export const CorporateUsersAdd = () => {
     Address: "",
     howyouknowus: "",
     PriorExperience: "",
+    password:""
   });
 
 const [selectedType,setSelectedType] = useState("Personal")
   const [userimageFile1,setUserImageFile1] = useState(null)
   const [userimageFile2,setUserImageFile2] = useState(null)
- 
+  const [companies, setCompanies] = useState([]);
 
   const [value, setValue] = React.useState(0);
 
@@ -186,7 +187,7 @@ const [selectedType,setSelectedType] = useState("Personal")
       "company_name":formData.companyName,
       "corporate_id":formData.corporateId,
       "email":formData.email,
-      "password": "",
+      "password": formData.password,
       "mobile":formData.mobile,
       "dob": formData.dob,
       "images": [userimageFile1, userimageFile2],
@@ -285,6 +286,25 @@ const [selectedType,setSelectedType] = useState("Personal")
     window.history.back()
   }
 
+  const getAllCompanies = async () => {
+    try {
+      // Get all companies
+      const response = await axios.get(`${Base_url}api/company/companies`);
+      if(response.status === 200) {
+      setCompanies(response.data);
+      const Data = response.data
+       
+      }
+      
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+    }
+  };
+
+
+  useEffect(()=>{
+    getAllCompanies()
+  },[])
   return (
     <div style={{ display: "flex", backgroundColor: "#fff" }}>
       
@@ -332,9 +352,26 @@ const [selectedType,setSelectedType] = useState("Personal")
               <Grid item xs={12}>
       
                   </Grid>
-          
+                  <Grid item xs={12} sm={6}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Company Name</InputLabel>
+        <Select
+          fullWidth
+          label="From"
+          name="companyName"
+          value={formData.companyName}
+          onChange={handleChange}
+        >
+          {companies.map((el) => (
+            <MenuItem key={el._id} value={el._id}>
+              {el.companyName} 
+            </MenuItem>
+          ))}
+        </Select>
+        </FormControl>
+      </Grid>
              
-                  <Grid item xs={6}>
+                  {/* <Grid item xs={6}>
                     <TextField
                       id="outlined-basic"
                       label="Company Name"
@@ -344,7 +381,7 @@ const [selectedType,setSelectedType] = useState("Personal")
                       value={formData.companyName}
                       onChange={handleChange}
                     />
-                  </Grid>
+                  </Grid> */}
              
              
                   <Grid item xs={6}>
@@ -389,7 +426,7 @@ const [selectedType,setSelectedType] = useState("Personal")
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <TextField
                     id="outlined-basic"
                     label="Mobile"
@@ -401,7 +438,7 @@ const [selectedType,setSelectedType] = useState("Personal")
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <TextField
                     id="outlined-basic"
                     label="Email"
@@ -412,7 +449,17 @@ const [selectedType,setSelectedType] = useState("Personal")
                     onChange={handleChange}
                   />
                 </Grid>
-                
+                <Grid item xs={4}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Password"
+                    variant="outlined"
+                    style={{ width: "100%" }}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                </Grid>
 
                 <Grid item xs={4}>
                   <div>

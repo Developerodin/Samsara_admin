@@ -89,7 +89,7 @@ export const CorporateUsers = () => {
           return item.corporate_id !== "";
         });
           const formattedData = Users.map((item) => ({
-          "Comapny":item.company_name,
+          "Comapny":item.company_name && item.company_name.companyName,
          "Name":item.name,
          "Email":item.email,
          "Phone":item.mobile,
