@@ -15,12 +15,12 @@ export const ZoomCdn = () => {
   var meetingNumber =ZoomMeetingNumber.number
   var passWord = ZoomMeetingNumber.pass
   var role = 1
-  var userName = "Akshay Pareek"
-  var userEmail = "Akshay96102@gmail.com"
+  var userName = "ADMIN"
+  var userEmail = "admin@gmail.com"
   var registrantToken = ''
   var zakToken = ''
   var leaveUrl = '/'
-  var userId="Akshay96102@gmail.com"
+  var userId="admin@gmail.com"
   var SECRET="C7Dm4JuZ2QXoN0bM2OYTw5JxZvjPK1y9"
   
 
