@@ -16,7 +16,7 @@ import {
 import {PageDataProvider} from './core'
 import {reInitMenu} from '../helpers'
 import {ToolbarWrapper} from './components/toolbar'
-
+import "./style.css"
 const MasterLayout = () => {
   const location = useLocation()
   useEffect(() => {
