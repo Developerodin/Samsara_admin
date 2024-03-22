@@ -36,6 +36,7 @@ import Tab from '@mui/material/Tab';
 import { ThemeProvider } from '@mui/material/styles';
 import { Base_url } from "../../Config/BaseUrl";
 import { ThemColor } from "../../Them/ThemColor";
+import CircularProgress from '@mui/material/CircularProgress';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const orangeTheme = createTheme({
@@ -91,15 +92,31 @@ export const TrainerAdd = () => {
       navigator.userAgent
     );
  
+    const [Teacherloading, setTeacherLoading] = useState(false);
+  const [personName, setPersonName] = React.useState([]);
+  const [visibleSection, setVisibleSection] = useState(1);
+  const [showPass, setPass] = useState(false);
+
+  const [TrainerSelected, setTrainerSelected] = useState(false);
+ 
 
   const [inputFields, setInputFields] = useState([
     { id: 1, label: "College", value: "" },
     { id: 2, label: "Courses", value: "" },
-    { id: 3, label: "Duration", value: "" },
-    { id: 4, label: "Passing Year", value: "" },
-    { id: 5, label: "Additional therapy or courses", value: "" },
+    // { id: 3, label: "Duration", value: "" },
+    { id: 3, label: "Passing Year", value: "" },
+    // { id: 5, label: "Additional therapy or courses", value: "" },
+  ]);
+
+  const [inputFieldsAc, setInputFieldsAc] = useState([
+    { id: 1, label: "Course", value: "" },
+    { id: 2, label: "School Name", value: "" },
+    { id: 3, label: "Passing Year", value: "" },
+   
+    
   ]);
   const [setCounter, setSetCounter] = useState(1);
+  const [setCounterAc, setSetCounterAc] = useState(1);
   
 
   const [formDataTrainer, setFormDatasetFormData] = useState({
@@ -113,32 +130,43 @@ export const TrainerAdd = () => {
     description: "",
     Expertise: [],
     Address: "",
+    password:"",
+    gender:"",
+    teachingExperience:""
    
   });
 
+  const [userimageFile2,setUserImageFile2] = useState(null)
   const [TeacherimageFile1,setTeacherImageFile1] = useState(null)
   const [TeacherimageFile2,setTeacherImageFile2] = useState(null)
- 
+  const [isTCChecked, setTCChecked] = useState(false);
 
   const [value, setValue] = React.useState(0);
 
-  const handelGoBack=()=>{
-    window.history.back()
-  }
+  const handletermandconditionsCheck = () => {
+    setTCChecked(!isTCChecked);
+  };
 
   const handleChangetabs = (event, newValue) => {
     setValue(newValue);
   };
-
+ 
 
   const handleChangeTrainer3 = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setFormDatasetFormData((prevData) => ({
-      ...prevData,
-      Expertise: typeof value === "string" ? value.split(",") : value,
-    }));
+   
+
+    const checkedName = event.target.value;
+
+    setFormDatasetFormData((prevFormData) => {
+      const updatedExpertise = prevFormData.Expertise.includes(checkedName)
+        ? prevFormData.Expertise.filter((name) => name !== checkedName)
+        : [...prevFormData.Expertise, checkedName];
+
+      return {
+        ...prevFormData,
+        Expertise: updatedExpertise,
+      };
+    });
   };
 
  
@@ -174,28 +202,53 @@ export const TrainerAdd = () => {
     setInputFields(updatedFields);
   };
 
+  const handleChange3Ac = (e, id) => {
+    const updatedFields = inputFieldsAc.map((field) =>
+      field.id === id ? { ...field, value: e.target.value } : field
+    );
+    setInputFieldsAc(updatedFields);
+  };
+
   const handleAddFields = () => {
     setInputFields((prevFields) => [
       ...prevFields,
       { id: prevFields.length + 1, label: "College", value: "" },
       { id: prevFields.length + 2, label: "Courses", value: [] },
-      { id: prevFields.length + 3, label: "Duration", value: "" },
-      { id: prevFields.length + 4, label: "Passing Year", value: "" },
-      {
-        id: prevFields.length + 5,
-        label: "Additional therapy or courses",
-        value: "",
-      },
+      // { id: prevFields.length + 3, label: "Duration", value: "" },
+      { id: prevFields.length + 3, label: "Passing Year", value: "" },
+      
     ]);
-    if ((inputFields.length + 1) % 5 === 0) {
+    if ((inputFields.length + 1) % 3 === 0) {
       setSetCounter((prevCounter) => prevCounter + 1);
     }
   };
 
   const handleRemoveFields = () => {
-    setInputFields((prevFields) => prevFields.slice(0, prevFields.length - 5));
-    if ((inputFields.length - 1) % 5 === 0) {
+    setInputFields((prevFields) => prevFields.slice(0, prevFields.length - 3));
+    if ((inputFields.length - 1) % 3 === 0) {
       setSetCounter((prevCounter) => prevCounter - 1);
+    }
+  };
+
+  const handleAddFieldsAc = () => {
+    setInputFieldsAc((prevFields) => [
+      ...prevFields,
+      { id: prevFields.length + 1, label: "Course", value: "" },
+      { id: prevFields.length + 2, label: "School Name", value: "" },
+      { id: prevFields.length + 3, label: "Passing Year", value: "" },
+     
+      
+      
+    ]);
+    if ((inputFieldsAc.length + 1) % 3 === 0) {
+      setSetCounterAc((prevCounter) => prevCounter + 1);
+    }
+  };
+
+  const handleRemoveFieldsAc = () => {
+    setInputFieldsAc((prevFields) => prevFields.slice(0, prevFields.length - 3));
+    if ((inputFieldsAc.length - 1) % 3 === 0) {
+      setSetCounterAc((prevCounter) => prevCounter - 1);
     }
   };
   const handleScroll = () => {
@@ -210,49 +263,66 @@ export const TrainerAdd = () => {
     );
     // Determine the section currently in view
     const currentSection = Math.floor(scrollPosition / sectionHeight) + 1;
+
+    setVisibleSection(currentSection);
   };
 
- 
+
   const handelTrainerContinue = () => {
+  
+    if(!isTCChecked){
+      alert('Please accepts Terms & Conditions and Privacy Policy')
+      return
+    }
+
     for (const key in formDataTrainer) {
       if (formDataTrainer[key] === "") {
         alert(`${key} is required.`);
         return; // Stop the submission process if any field is empty
       }
     }
-    // navigation("/login");
-    // console.log("Data Trainer ===>", formDataTrainer);
+  
     console.log("Data of map inputs", inputFields);
-    // console.log("Data of images", imageSrc1,imageSrc2);
+   
     const formData = new FormData();
 
-// Append regular fields
+
 formData.append('name', formDataTrainer.name);
 formData.append('email', formDataTrainer.email);
+formData.append('gender', formDataTrainer.gender);
 formData.append('password', formDataTrainer.password);
 formData.append('mobile', formDataTrainer.mobile);
 formData.append('dob', formDataTrainer.dob);
 formData.append('Address', formDataTrainer.Address);
-formData.append('expertise', formDataTrainer.Expertise);
+formDataTrainer.Expertise.forEach((el, index) => {
+  formData.append('expertise', el);
+});
+
 formData.append('city', formDataTrainer.city);
 formData.append('pincode', formDataTrainer.pincode);
 formData.append('country', formDataTrainer.country);
 const qualificationData = JSON.stringify(inputFields);
+const additional_courses = JSON.stringify(inputFieldsAc);
 formData.append('qualification', qualificationData);
+formData.append('additional_courses', additional_courses);
+formData.append('teachingExperience', formDataTrainer.teachingExperience);
+formData.append('description', formDataTrainer.description);
 const ImageData=[TeacherimageFile1,TeacherimageFile2]
-ImageData.forEach((image, index) => {
-  formData.append('images', image);
-});
-
+formData.append('images', TeacherimageFile1);
+formData.append('images', TeacherimageFile2);
+setTeacherLoading(true)
 axios.post(`${Base_url}teacher_signup`, formData)
       .then((response) => {
+        setTeacherLoading(false)
         console.log('Teacher created successfully:', response.data);
         // Optionally, you can navigate to the login page or perform any other action
         // navigation("/login");
-        navigation("/trainers");
+        alert("Trainer Account created successfully")
+        handelGoBack();
       })
       .catch((error) => {
         console.error('Error creating user:', error);
+        setTeacherLoading(false)
         alert("Refresh and try again");
       });
 
@@ -260,9 +330,11 @@ axios.post(`${Base_url}teacher_signup`, formData)
 
 
 
+
   const Expertise = [
     "Hatha",
-    "Vinyasa",
+    "Vinyasa Flow",
+    "Iyenger Yoga",
     "Power Yoga",
     "Ashtanga",
     "YIN",
@@ -272,9 +344,16 @@ axios.post(`${Base_url}teacher_signup`, formData)
     "Kids Yoga",
     "Pre & Postnatal",
     "Mudra",
+    "Laughter Yoga",
+    "Sound Healing",
   ];
   const course = ["B.S.C", "M.S.C", "P.H.D"];
 
+ 
+
+  const handleFileChange2 = (e) => {
+    setUserImageFile2(e.target.files[0]);
+  };
   const handleFileChange3 = (e) => {
     setTeacherImageFile1(e.target.files[0]);
   };
@@ -289,6 +368,10 @@ axios.post(`${Base_url}teacher_signup`, formData)
   const handelPrevious = (value)=>{
 
     setValue(value)
+  }
+
+  const handelGoBack=()=>{
+    window.history.back()
   }
 
   useEffect(() => {
@@ -336,7 +419,7 @@ axios.post(`${Base_url}teacher_signup`, formData)
                 // Hide the scrollbar
               }}
             >
-                     <Box sx={{ width: '100%' }}>
+                    <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
       <ThemeProvider theme={orangeTheme}>
         <Tabs value={value} onChange={handleChangetabs} aria-label="basic tabs example" textColor="primary"
@@ -349,7 +432,7 @@ axios.post(`${Base_url}teacher_signup`, formData)
       </Box>
       <CustomTabPanel value={value} index={0}>
       <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     id="outlined-basic"
                     label="Name"
@@ -361,31 +444,19 @@ axios.post(`${Base_url}teacher_signup`, formData)
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     id="outlined-basic"
-                    label="Email"
+                    label="Sex"
                     variant="outlined"
                     style={{ width: "100%" }}
-                    name="email"
-                    value={formDataTrainer.email}
+                    name="gender"
+                    value={formDataTrainer.gender}
                     onChange={handleChangeTrainer}
                   />
                 </Grid>
 
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Mobile"
-                    variant="outlined"
-                    style={{ width: "100%" }}
-                    name="mobile"
-                    value={formDataTrainer.mobile}
-                    onChange={handleChangeTrainer}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6} md={6}>
                   <div>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DateField
@@ -398,7 +469,47 @@ axios.post(`${Base_url}teacher_signup`, formData)
                   </div>
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6} md={6}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Mobile"
+                    variant="outlined"
+                    style={{ width: "100%" }}
+                    name="mobile"
+                    value={formDataTrainer.mobile}
+                    onChange={handleChangeTrainer}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={6}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Email"
+                    variant="outlined"
+                    style={{ width: "100%" }}
+                    name="email"
+                    value={formDataTrainer.email}
+                    onChange={handleChangeTrainer}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={6}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Password"
+                    variant="outlined"
+                    style={{ width: "100%" }}
+                    name="password"
+                    value={formDataTrainer.password}
+                    onChange={handleChangeTrainer}
+                  />
+                </Grid>
+
+                
+
+                
+
+                <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     id="outlined-basic"
                     label="Resident permanent Address:"
@@ -410,7 +521,7 @@ axios.post(`${Base_url}teacher_signup`, formData)
                   />
                 </Grid>
              
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     id="outlined-basic"
                     label="City"
@@ -422,7 +533,7 @@ axios.post(`${Base_url}teacher_signup`, formData)
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     id="outlined-basic"
                     label="Pincode"
@@ -434,7 +545,7 @@ axios.post(`${Base_url}teacher_signup`, formData)
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     id="outlined-basic"
                     label="Country"
@@ -474,7 +585,7 @@ axios.post(`${Base_url}teacher_signup`, formData)
 
       <CustomTabPanel value={value} index={1}>
       <Grid container spacing={2}>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
                   <div>
                     <FormControl sx={{ width: "100%" }}>
                       <InputLabel id="demo-multiple-checkbox-label">
@@ -504,8 +615,38 @@ axios.post(`${Base_url}teacher_signup`, formData)
                       </Select>
                     </FormControl>
                   </div>
-                </Grid>
+                </Grid> */}
 
+
+
+                <Grid item xs={12}>
+      <div>
+        <Typography style={{fontSize:"16px"}}>Teaching Expertise</Typography>
+        <FormControl sx={{ width: "100%" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gap: "16px",
+            }}
+          >
+            {Expertise.map((name) => (
+              <MenuItem key={name}  value={name}>
+                <Checkbox
+                  checked={formDataTrainer.Expertise.includes(name)}
+                  onChange={handleChangeTrainer3}
+                  value={name}
+                  
+                />
+                <ListItemText primary={name} />
+              </MenuItem>
+            ))}
+          </div>
+        </FormControl>
+      </div>
+    </Grid>
+
+               
                 <Grid item xs={12}>
                   <div
                     style={{
@@ -523,7 +664,7 @@ axios.post(`${Base_url}teacher_signup`, formData)
                         style={{
                           letterSpacing: 1,
                           fontWeight: "bold",
-                          color: "grey",
+                        
                           fontSize: "14px",
                         }}
                       >
@@ -535,7 +676,7 @@ axios.post(`${Base_url}teacher_signup`, formData)
                       <IconButton onClick={handleAddFields} color="primary">
                         <AddIcon />
                       </IconButton>
-                      {inputFields.length > 5 && (
+                      {inputFields.length > 4 && (
                         <IconButton onClick={handleRemoveFields} color="error">
                           <RemoveIcon />
                         </IconButton>
@@ -545,17 +686,18 @@ axios.post(`${Base_url}teacher_signup`, formData)
                 </Grid>
 
                 {inputFields.map((field, index) => (
-                  <Grid item xs={field.id % 5 === 0 ? 12 : 6} key={field.id}>
+                  <Grid item xs={12} sm={12} md={4} key={field.id}>
                     {/* ... your numbering logic ... */}
-                    {index % 5 === 0 ? (
+                    {index % 3 === 0 ? (
                       <div
                         style={{
                           padding: "5px",
                           marginBottom: "5px",
                           width: "100%",
+                        
                         }}
                       >
-                        {index % 5 === 0 && setCounter + Math.floor(index / 5)}.{" "}
+                        {index % 3 === 0 && setCounter + Math.floor(index / 3)}.{" "}
                         {/* Displaying numbering for each set of four input fields */}
                       </div>
                     ) : (
@@ -564,7 +706,7 @@ axios.post(`${Base_url}teacher_signup`, formData)
                       </div>
                     )}
                     {field.label === "Courses" ? (
-                      <FormControl sx={{ width: "100%", marginTop: "21px" }}>
+                      <FormControl sx={{ width: "100%", marginTop: "24px" }}>
                         <InputLabel
                           id={`demo-multiple-checkbox-label-${field.id}`}
                         >
@@ -578,8 +720,8 @@ axios.post(`${Base_url}teacher_signup`, formData)
                         >
                           {/* Replace 'course' with your actual array of course options */}
                           {course.map((name) => (
-                            <MenuItem key={name} value={name}>
-                              <ListItemText primary={name} />
+                            <MenuItem key={name}  value={name} >
+                              <ListItemText color="black"  primary={name} />
                             </MenuItem>
                           ))}
                         </Select>
@@ -589,11 +731,83 @@ axios.post(`${Base_url}teacher_signup`, formData)
                         id={`outlined-basic-${field.id}`}
                         label={field.label}
                         variant="outlined"
-                        style={{ width: "100%" }}
+                        style={{ width: "100%",marginTop:`${field.label === "Passing Year" ? "24px" : "0px"}` }}
                         value={field.value}
                         onChange={(e) => handleChange3(e, field.id)}
                       />
                     )}
+                  </Grid>
+                ))}
+
+
+            <Grid item xs={12}>
+                  <div
+                    style={{
+                      padding: 5,
+                      // backgroundColor: "#F4EAE0",
+                      borderRadius: 10,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <div>
+                      <Typography
+                        style={{
+                          letterSpacing: 1,
+                          fontWeight: "bold",
+                       
+                          fontSize: "14px",
+                        }}
+                      >
+                        Additional Courses
+                      </Typography>
+                    </div>
+
+                    <div style={{ textAlign: "right" }}>
+                      <IconButton onClick={handleAddFieldsAc} color="primary">
+                        <AddIcon />
+                      </IconButton>
+                      {inputFieldsAc.length > 3 && (
+                        <IconButton onClick={handleRemoveFieldsAc} color="error">
+                          <RemoveIcon />
+                        </IconButton>
+                      )}
+                    </div>
+                  </div>
+                </Grid>
+
+                {inputFieldsAc.map((field, index) => (
+                  <Grid item xs={12} sm={12} md={4} key={field.id}>
+                    {/* ... your numbering logic ... */}
+                    {index % 3 === 0 ? (
+                      <div
+                        style={{
+                          padding: "5px",
+                          marginBottom: "5px",
+                          width: "100%",
+                        
+                        }}
+                      >
+                        {index % 3 === 0 && setCounterAc + Math.floor(index / 3)}.{" "}
+                        {/* Displaying numbering for each set of four input fields */}
+                      </div>
+                    ) : (
+                      <div style={{ padding: "5px", marginBottom: "5px" }}>
+                        {/* Displaying numbering for each set of four input fields */}
+                      </div>
+                    )}
+                   
+                      <TextField
+                        id={`outlined-basic-${field.id}`}
+                        label={field.label}
+                        variant="outlined"
+                        style={{ width: "100%",marginTop:`${field.label === "Passing Year" || field.label === "School Name" ? "24px" : "0px"}` }}
+                        value={field.value}
+                        onChange={(e) => handleChange3Ac(e, field.id)}
+                      />
+                  
                   </Grid>
                 ))}
 
@@ -633,18 +847,31 @@ axios.post(`${Base_url}teacher_signup`, formData)
       <CustomTabPanel value={value} index={2}>
       <Grid container spacing={2}>
              
+      <Grid item xs={12}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Teaching Experience In Years"
+                    variant="outlined"
+                    style={{ width: "100%" }}
+                    name="teachingExperience"
+                    value={formDataTrainer.teachingExperience}
+                    onChange={handleChangeTrainer}
+                  />
+                </Grid>
 
                 <Grid item xs={12}>
                   <TextareaAutosize
                     style={{
-                      // backgroundColor: "#FFFBF5",
+                      background:"transparent",
                       padding: 10,
-                      width: `${!isMobile ? "98%" : "93%"}`,
+                      width: `${!isMobile ? "97%" : "93%"}`,
+                    
+                      borderColor:"#814151"
                     }}
                     aria-label="minimum height"
                     minRows={4}
                     maxRows={5}
-                    placeholder="Work Experience– 500 words"
+                    placeholder="Work Experience – 500 words"
                     name="description"
                     value={formDataTrainer.description}
                     onChange={handleChangeTrainer}
@@ -652,12 +879,12 @@ axios.post(`${Base_url}teacher_signup`, formData)
                 </Grid>
 
                 <Grid item xs={12}>
-                <div style={{marginBottom:"20px"}}>
+                <div style={{marginBottom:"20px",marginTop:"20px"}}>
                       <Typography
                         style={{
                           letterSpacing: 1,
                           fontWeight: "bold",
-                          color: "grey",
+                       
                           fontSize: "14px",
                         }}
                       >
@@ -687,7 +914,7 @@ axios.post(`${Base_url}teacher_signup`, formData)
                       }
                       
                       
-                      <TextField  type='file'   variant="outlined" onChange={handleFileChange3}  />
+                      <input  type='file'    onChange={handleFileChange3} id="noborder" />
         
                     </div>
 
@@ -712,9 +939,24 @@ axios.post(`${Base_url}teacher_signup`, formData)
                         </div>
                       }
                     
-                      <TextField  type='file'   variant="outlined" onChange={handleFileChange4}  />
+                      <input  type='file'    onChange={handleFileChange4} id="noborder" />
                     </div>
                   </div>
+                </Grid>
+
+                <Grid item xs={12}>
+                <div style={{display:"flex",justifyContent:"left",alignItems:"center"}}>
+      <Checkbox
+        checked={isTCChecked}
+        onChange={handletermandconditionsCheck}
+        inputProps={{ 'aria-label': 'Checkbox demo' }}
+       
+      />
+      <p style={{fontSize:"15px"}}>By creating an account, you agree to Samsara Wellness
+<a href="#" style={{color:"blue",marginLeft:"5px",marginRight:"5px",textDecoration:"none"}}>Terms & Conditions</a>
+ and 
+ <a href="#" style={{color:"blue",marginLeft:"5px",marginRight:"5px",textDecoration:"none"}}>Privacy Policy</a></p>
+    </div>
                 </Grid>
 
                 <Grid item xs={12}>
@@ -740,11 +982,18 @@ axios.post(`${Base_url}teacher_signup`, formData)
                       size="large"
                       style={{ backgroundColor: "#EE731B" }}
                       onClick={handelTrainerContinue}
+                      disabled={Teacherloading}
                     >
-                      Submit
+                                   {Teacherloading ? (
+        <CircularProgress size={24} color="inherit" />
+      ) : (
+        'Submit'
+      )}
                     </Button>
                   </div>
                 </Grid>
+
+                
               </Grid>
       </CustomTabPanel>
     </Box>
