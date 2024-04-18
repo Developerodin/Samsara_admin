@@ -87,6 +87,7 @@ import { TrainerUpdate } from '../pages/ManageTrainers/TrainerUpdate'
 import { UpdateClasses } from '../pages/Manage CLasses/UpdateClasses'
 import { UpdateRecordedClass } from '../pages/Manage CLasses/UpdateRecordedClass'
 import { ZoomCdn } from '../pages/Manage CLasses/ZoomCdn'
+import { TimeSlots } from '../pages/Manage CLasses/TimeSlots'
 
 
 
@@ -468,6 +469,15 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <CustomSessions/>
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='time-slots/*'
+          element={
+            <SuspensedView>
+              <TimeSlots/>
             </SuspensedView>
           }
         />

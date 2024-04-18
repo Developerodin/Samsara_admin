@@ -13,6 +13,10 @@ import axios from 'axios';
 import ZoomMtgEmbedded from '@zoomus/websdk/embedded';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import Modal from '@mui/material/Modal';
+import Grid from "@mui/material/Grid";
+import CircularProgress from '@mui/material/CircularProgress';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 const KJUR = require('jsrsasign')
 const column=[
     {name:"Trainer"},
@@ -26,7 +30,20 @@ const column=[
 
     
   ]
-export const CustomSessions = () => {
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width:"400px",
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    height:190,
+    p: 4,
+    borderRadius:"24px"
+  };
+export const TimeSlots = () => {
   const navigate = useNavigate();
     const [rows, setRows] = useState([]);
     const [CustomSessions, setCustomSessions] = useState([]);
@@ -35,10 +52,28 @@ export const CustomSessions = () => {
     const [zoomToken, setZoomToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = React.useState('');
+  const [timeSlots, setTimeSlots] = useState([]);
+  const [newTimeSlot, setNewTimeSlot] = useState({ timeRange: '' });
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = (id) =>{
+    const teacherValue =id;
+//   const userValue = user._id
+    // setCustomSessionData((prev) => ({
+    //   ...prev,
+    //   teacher: teacherValue,
+    //   user: userValue,
+    // }));
+    console.log("Id =>",id)
+    setOpen(true);
+  } 
+  const handleClose = () => setOpen(false);
+
     const handelCustomSessionsAdd = ()=>{
 
     }
-  
+    const handleInputChange = (e) => {
+        setNewTimeSlot({ ...newTimeSlot, [e.target.name]: e.target.value });
+      };
     const handelDeleteSessions=async(id)=>{
       console.log("delete Customer",id)
      
@@ -82,11 +117,11 @@ export const CustomSessions = () => {
            "Teacher":item.teacher ? item.teacher.name : "no teacher assigned",
            "User":item.user ? item.user.name : "no user assigned",
            "Date":item.date,
-           "Time":item.timeSlot ? item.timeSlot.timeRange : "no timeSlot assigned" ,
+           "Time":item.time,
            "message":item.message,
-          "Status":item.status === "approved" ? <Button color='success' variant="contained" >Approved</Button> : <Button color='error' variant="contained">Pending</Button>,
+          "Status":item.approved ? <Button color='success' variant="contained" >Approved</Button> : <Button color='error' variant="contained">Pending</Button>,
          "Delete": <DeleteIcon  onClick={() => handelDeleteSessions(item._id)}/>,
-          "Action":item.status === "approved"  ? <Button color='error' variant="contained" onClick={()=>handleApprove(item._id)} >Un approve</Button> : <Button color='success' variant="contained" onClick={()=>handleApprove(item._id)} >Approve</Button>
+          "Action":item.approved ? <Button color='error' variant="contained" onClick={()=>handleApprove(item._id)} >Un approve</Button> : <Button color='success' variant="contained" onClick={()=>handleApprove(item._id)} >Approve</Button>
        }));
 
   
@@ -119,13 +154,44 @@ export const CustomSessions = () => {
       setFilterRows(rows);
     };
        
-
-  
+    const fetchTimeSlots = async () => {
+        try {
+          const response = await axios.get(`${Base_url}api/custom_session/time-slots`);  // Assuming your backend API endpoint is '/api/time-slots'
+          setTimeSlots(response.data);
+        } catch (error) {
+          console.error('Error fetching time slots:', error);
+        }
+      };
+      const handleCreate = async () => {
+        try {
+          await axios.post(`${Base_url}api/custom_session/time-slots`, newTimeSlot);
+          setNewTimeSlot({ timeRange: '' });
+          fetchTimeSlots();
+          handleClose() // Refresh time slots after creating a new one
+        } catch (error) {
+          console.error('Error creating time slot:', error);
+        }
+      };
+    
+      const handleDelete = async (id) => {
+        try {
+          await axios.delete(`${Base_url}api/custom_session/time-slots/${id}`);
+          fetchTimeSlots(); // Refresh time slots after deleting one
+        } catch (error) {
+          console.error('Error deleting time slot:', error);
+        }
+      };
 
     useEffect(() => {
       // Fetch all classes when the component mounts
-      getAllCustomSessions();
+    //   getAllCustomSessions();
+      fetchTimeSlots();
     }, [update]);
+
+    // useEffect(() => {
+
+    //     fetchTimeSlots();
+    //   }, []);
   return (
     <div>
       <div id="meetingSDKElement">
@@ -165,21 +231,80 @@ export const CustomSessions = () => {
             <Box >
         
              
-              <Button variant='contained' style={{backgroundColor:`${ThemColor.buttons}`}}>
-                <TuneIcon />
+              <Button onClick={handleOpen} variant='contained' style={{backgroundColor:`${ThemColor.buttons}`}}>
+                Add
               </Button>
             </Box>
            
           </Box>
         </CardContent>
        </Card>
+           
+           <div style={{marginTop:50,display:"flex",justifyContent:'left',alignItems:"center",flexWrap:"wrap",gap:20}}>
+            {
+                timeSlots && timeSlots.map((el,index)=>{
+                    return  <div key={index} style={{position:"relative",border:"1px solid grey",height:80,width:150,borderRadius:10,display:"flex",justifyContent:"center",alignItems:"center"}}>
+                    <span>{el.timeRange}</span>
 
+                    <div onClick={()=>handleDelete(el._id)} style={{position:"absolute",top:-3,right:-3}}>
+                      <HighlightOffIcon style={{color:"red",fontSize:"24px"}}/>
+                        </div>
+                 </div>
+                })
+            }
+               
 
-       <Box style={{marginTop:"-2px"}}>
+           </div>
+
+           <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+        <Grid container spacing={3}>
+              <Grid item xs={12}>
+              <TextField
+              style={{ width: "100%" }}
+        label="Time Range"
+        type="text"
+        name="timeRange"
+        value={newTimeSlot.timeRange}
+        onChange={handleInputChange}
        
-          <GenralTabel column={column} rows={filterRows} />
+      />
+                  </Grid>
+          
+                 
+             
+                
+
+                <Grid item xs={12}>
+                  <div
+                    style={{
+                      marginTop: "30px",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    
+
+                    <Button
+                      variant="contained"
+                      size="large"
+                      style={{ backgroundColor: "#EA6C13",marginTop:"-20px" }}
+                      onClick={()=>handleCreate()}
+                      
+                    >
+                     Submit
+                    </Button>
+                  </div>
+                </Grid>
+              </Grid>
         
-       </Box>
+        </Box>
+      </Modal>
     </div>
   )
 }

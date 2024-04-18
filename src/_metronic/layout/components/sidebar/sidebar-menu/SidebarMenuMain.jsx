@@ -124,7 +124,13 @@ const SidebarMenuMain = () => {
             fontIcon='bi-layers'
            
           />
-
+<SidebarMenuItem
+            to='/time-slots/'
+            icon='/media/icons/duotune/communication/com013.svg'
+            title='Time Slots'
+            fontIcon='bi-layers'
+           
+          />
 <SidebarMenuItem
             to='/custom_sessions/'
             icon='/media/icons/duotune/communication/com013.svg'
@@ -132,6 +138,8 @@ const SidebarMenuMain = () => {
             fontIcon='bi-layers'
            
           />
+
+
   
         {/* <div className='menu-item mt-5'>
           <div className='menu-content'>
