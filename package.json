@@ -33,12 +33,12 @@
     "prism-themes": "1.9.0",
     "prismjs": "1.28.0",
     "qs": "6.10.3",
-    "react": "18.0.0",
+    "react":"18.0.0",
     "react-apexcharts": "1.4.0",
     "react-bootstrap": "2.5.0-beta.1",
     "react-chartjs-2": "^5.2.0",
     "react-copy-to-clipboard": "5.1.0",
-    "react-dom": "18.0.0",
+    "react-dom":"18.0.0",
     "react-inlinesvg": "3.0.0",
     "react-intl": "5.25.0",
     "react-minimal-pie-chart": "^8.4.0",
@@ -81,7 +81,7 @@
     "webpack-cli": "4.10.0"
   },
   "scripts": {
-    "start": "NODE_OPTIONS=\"--max-old-space-size=4096\" react-scripts start ",
+    "start": "react-scripts start ",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",

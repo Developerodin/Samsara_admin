@@ -77,7 +77,7 @@ import { ManageClasses } from '../pages/Manage CLasses/ManageClasses'
 import { ClassView } from '../pages/Manage CLasses/ClassView'
 
 import { AddNewClass } from '../pages/Manage CLasses/AddNewClass'
-import { ZoomMeeetingRoom } from '../pages/Manage CLasses/ZoomMeeetingRoom'
+// import { ZoomMeeetingRoom } from '../pages/Manage CLasses/ZoomMeeetingRoom'
 import { RecordedClasses } from '../pages/Manage CLasses/RecordedClasses'
 import { CustomSessions } from '../pages/Manage CLasses/CustomSessions'
 import { AddNewRecording } from '../pages/Manage CLasses/AddNewRecording'
@@ -398,14 +398,14 @@ const PrivateRoutes = () => {
           }
         />
 
-<Route
+{/* <Route
           path="classes/zoom-meeting/*"
           element={
             <SuspensedView>
               <ZoomMeeetingRoom />
             </SuspensedView>
           }
-        />
+        /> */}
         <Route
           path="classes/zoom-cdn/*"
           element={

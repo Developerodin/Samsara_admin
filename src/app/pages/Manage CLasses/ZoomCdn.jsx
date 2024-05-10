@@ -104,12 +104,13 @@ const serialize =(obj) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let { ZoomMtg } = await  import("@zoomus/websdk");
-        // let ZoomMtg;
-        
+        // let { ZoomMtg } = await  import("@zoomus/websdk");
+        let {ZoomMtg} = window;
+        console.log("Zoom Mtg==>",ZoomMtg)
         ZoomMtg.preLoadWasm();
-        ZoomMtg.prepareJssdk();
-        ZoomMtg.setZoomJSLib('https://source.zoom.us/3.1.6/lib', '/av');
+        ZoomMtg.prepareWebSDK();
+        // ZoomMtg.prepareJssdk();
+        ZoomMtg.setZoomJSLib('https://source.zoom.us/3.6.0/lib', '/av');
         var signature = ZoomMtg.generateSDKSignature({
           meetingNumber: meetingConfig.mn,
           sdkKey: sdkKey,
@@ -117,10 +118,10 @@ const serialize =(obj) => {
           role: meetingConfig.role,
           success: function (res) {
             console.log(res);
-            meetingConfig.signature = res.result;
+            meetingConfig.signature = res;
             meetingConfig.sdkKey = sdkKey;
             var joinUrl = "/meeting.html?" + serialize(meetingConfig);
-            console.log(joinUrl);
+            console.log("Metting url ==>",joinUrl);
             window.open(joinUrl);
             // window.location.replace(joinUrl);
             // navigate.goback()
@@ -135,8 +136,8 @@ const serialize =(obj) => {
     fetchData();
   }, []);
   return <Fragment>
-        <link type="text/css" rel="stylessheet" href='https://source.zoom.us/3.1.6/css/bootstrap.css' />
-        <link type="text/css" rel="stylessheet" href='https://source.zoom.us/3.1.6/css/react-select.css' />
+        <link type="text/css" rel="stylessheet" href='https://source.zoom.us/3.6.0/css/bootstrap.css' />
+        <link type="text/css" rel="stylessheet" href='https://source.zoom.us/3.6.0/css/react-select.css' />
   </Fragment>
 };
 
