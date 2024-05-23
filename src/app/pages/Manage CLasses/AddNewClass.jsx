@@ -12,13 +12,16 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs';
+import { FormLabel } from 'react-bootstrap';
 export const AddNewClass = () => {
   const [newClass, setNewClass] = useState({
     title: '',
     description: '',
     teacher: '', // You might want to select a teacher from a dropdown
-    schedule: dayjs(),
-    password:""
+    password:"",
+    schedule:new Date(),
+    startTime:null,
+    endTime:null
   });
 
 
@@ -37,19 +40,20 @@ export const AddNewClass = () => {
   };
 
   const createNewClass = async () => {
-    try {
-      const response = await axios.post(`${Base_url}api/classes`, newClass);
-      // setClasses((prevClasses) => [...prevClasses, response.data.data]);
-      setNewClass({
-        title: '',
-        description: '',
-        teacher: '',
-        schedule: dayjs(),
-      });
-      handelGoBack()
-    } catch (error) {
-      console.error('Error creating class:', error.message);
-    }
+    console.log("Data ==>",newClass)
+    // try {
+    //   const response = await axios.post(`${Base_url}api/classes`, newClass);
+     
+    //   setNewClass({
+    //     title: '',
+    //     description: '',
+    //     teacher: '',
+    //     schedule: dayjs(),
+    //   });
+    //   handelGoBack()
+    // } catch (error) {
+    //   console.error('Error creating class:', error.message);
+    // }
   };
 
   const handelGoBack=()=>{
@@ -111,16 +115,29 @@ export const AddNewClass = () => {
 
 
                   <Grid item xs={6}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DateTimePicker']}>
-        <DateTimePicker 
-        label="Date and Time"
-        value={newClass.schedule}
-        onChange={(newValue) => handleDateChange(newValue)}
-        
-        />
-      </DemoContainer>
-    </LocalizationProvider>
+                 
+
+    <TextField fullWidth type='date' name="schedule" value={newClass.schedule} 
+                      onChange={handleInputChange}  />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                 
+                  <FormControl fullWidth>
+                    <FormLabel>Start Time</FormLabel>
+                    <TextField fullWidth type='time' name="startTime" value={newClass.startTime} 
+                      onChange={handleInputChange}  />
+                  </FormControl>
+    
+                  </Grid>
+
+                  <Grid item xs={6}>
+                 
+                  <FormControl fullWidth>
+                    <FormLabel>End Time</FormLabel>
+                    <TextField fullWidth type='time' name="endTime" value={newClass.endTime} 
+                      onChange={handleInputChange}  />
+                  </FormControl>
                   </Grid>
                  
 

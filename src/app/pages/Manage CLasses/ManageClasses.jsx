@@ -444,7 +444,7 @@ useEffect(() => {
             </Box>
         </Box>
   
-        <Button  sx={{marginLeft:"20px"}} variant="contained" onClick={handleSearch}> Search</Button>
+        <Button  sx={{marginLeft:"20px"}} variant="contained" onClick={handleSearch}>Search</Button>
         <Button sx={{marginLeft:"20px"}} variant="outlined" onClick={handleResetFilter}> <FilterAltIcon sx={{marginRight:"10px"}} />Reset Filter</Button>
       </Box>
 
