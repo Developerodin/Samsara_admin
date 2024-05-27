@@ -95,7 +95,6 @@ export const UsersAdd = () => {
     name: "",
     sex: "",
     email: "",
-    companyName: "",
     corporateId: "",
     mobile: "",
     dob: null,
@@ -185,7 +184,6 @@ const [selectedType,setSelectedType] = useState("Personal")
     const userData ={
       "name": formData.name,
       "gender": formData.sex,
-      "company_name":formData.companyName,
       "corporate_id":formData.corporateId,
       "email":formData.email,
       "password": "",
@@ -208,7 +206,6 @@ const [selectedType,setSelectedType] = useState("Personal")
     
     formData1.append("name", userData.name);
     formData1.append("gender", userData.gender);
-    formData1.append("company_name", userData.company_name);
     formData1.append("corporate_id", userData.corporate_id);
     formData1.append("email", userData.email);
     formData1.append("password", userData.password);

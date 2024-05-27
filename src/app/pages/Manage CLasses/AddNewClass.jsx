@@ -41,19 +41,19 @@ export const AddNewClass = () => {
 
   const createNewClass = async () => {
     console.log("Data ==>",newClass)
-    // try {
-    //   const response = await axios.post(`${Base_url}api/classes`, newClass);
+    try {
+      const response = await axios.post(`${Base_url}api/classes`, newClass);
      
-    //   setNewClass({
-    //     title: '',
-    //     description: '',
-    //     teacher: '',
-    //     schedule: dayjs(),
-    //   });
-    //   handelGoBack()
-    // } catch (error) {
-    //   console.error('Error creating class:', error.message);
-    // }
+      setNewClass({
+        title: '',
+        description: '',
+        teacher: '',
+        schedule: dayjs(),
+      });
+      handelGoBack()
+    } catch (error) {
+      console.error('Error creating class:', error.message);
+    }
   };
 
   const handelGoBack=()=>{

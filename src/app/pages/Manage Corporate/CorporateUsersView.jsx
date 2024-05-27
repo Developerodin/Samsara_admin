@@ -623,7 +623,7 @@ export const CorporateUsersView = () => {
       <div className='row gy-10 gx-xl-10'>
         <div className='col-xl-6'>
             {
-                userData && <ListsWidget10 className='mb-5 mb-xxl-8' Data={userData.health_issues} />
+                userData && userData.health_issues && <ListsWidget10 className='mb-5 mb-xxl-8' Data={userData.health_issues} />
             }
         
         </div>

@@ -9,7 +9,7 @@ type Props = {
 }
 
 const ListsWidget10: React.FC<Props> = ({className,Data}) => {
-  const issuesArray = Data ? Data[0].split(',') : [];
+  const issuesArray = Data && Data[0] ?  Data[0].split(',') : [];
   const colorClasses = ['text-danger', 'text-warning', 'text-success'];
   return (
     <div className={`card ${className}`}>

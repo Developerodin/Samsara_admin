@@ -213,10 +213,13 @@ const [selectedType,setSelectedType] = useState("Personal")
     
     formData1.append("name", userData.name);
     formData1.append("gender", userData.gender);
-    formData1.append("company_name", userData.company_name);
+    if(formData.corporateId !== ""){
+      formData1.append("company_name", userData.company_name);
     formData1.append("corporate_id", userData.corporate_id);
+    }
+    
     formData1.append("email", userData.email);
-    formData1.append("password", userData.password);
+    // formData1.append("password", userData.password);
     formData1.append("mobile", userData.mobile);
     formData1.append("dob", userData.dob);
     userData.images.forEach((image, index) => {
