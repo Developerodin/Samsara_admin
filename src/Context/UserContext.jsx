@@ -77,20 +77,12 @@ export const UserContextProvider = ({ children }) => {
         UserDetailsSet();
     },[update])
 
-    useEffect(()=>{
-      fetchUserData()
-    },[userToken])
+  
 
-    useEffect(() => {
-        if (userData && userData.role) {
-            fetchuserRole();
-            
-        }
-      }, [userData,userToken,Refresh]);
     
     return (
       // Provide the value to the components that consume this context
-      <UserContext.Provider value={{setUserData,userData,userRole,setUserRole,setUserPermisson,userPermisson,userToken,setRefresh,setUpdated}}>
+      <UserContext.Provider value={{update,setUserData,userData,userRole,setUserRole,setUserPermisson,userPermisson,userToken,setRefresh,setUpdated}}>
         {children}
       </UserContext.Provider>
     );
