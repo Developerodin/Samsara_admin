@@ -88,6 +88,8 @@ import { UpdateClasses } from '../pages/Manage CLasses/UpdateClasses'
 import { UpdateRecordedClass } from '../pages/Manage CLasses/UpdateRecordedClass'
 import { ZoomCdn } from '../pages/Manage CLasses/ZoomCdn'
 import { TimeSlots } from '../pages/Manage CLasses/TimeSlots'
+import { Events } from '../pages/Events/Events'
+import { CreateEvent } from '../pages/Events/CreateEvent'
 
 
 
@@ -422,6 +424,14 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
+            <Route
+          path="events/zoom-cdn/*"
+          element={
+            <SuspensedView>
+              <ZoomCdn />
+            </SuspensedView>
+          }
+        />
         {/* <Route
           path="classes/zoom-cdn/*"
           element={
@@ -486,6 +496,23 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <TimeSlots/>
+            </SuspensedView>
+          }
+        />
+
+<Route
+          path='events/*'
+          element={
+            <SuspensedView>
+              <Events/>
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='events/add/*'
+          element={
+            <SuspensedView>
+              <CreateEvent/>
             </SuspensedView>
           }
         />

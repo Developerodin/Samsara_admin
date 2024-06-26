@@ -124,6 +124,20 @@ const SidebarMenuMain = () => {
             fontIcon='bi-layers'
            
           />
+
+          <div className='menu-item'>
+          <div className='menu-content'>
+            <span className='menu-heading fw-bold  fs-7'>Manage Custom Sessions</span>
+          </div>
+        </div>
+<SidebarMenuItem
+            to='/custom_sessions/'
+            icon='/media/icons/duotune/communication/com013.svg'
+            title='Custom Session'
+            fontIcon='bi-layers'
+           
+          />
+
 <SidebarMenuItem
             to='/time-slots/'
             icon='/media/icons/duotune/communication/com013.svg'
@@ -131,10 +145,16 @@ const SidebarMenuMain = () => {
             fontIcon='bi-layers'
            
           />
-<SidebarMenuItem
-            to='/custom_sessions/'
+
+<div className='menu-item'>
+          <div className='menu-content'>
+            <span className='menu-heading fw-bold  fs-7'>Manage Events</span>
+          </div>
+        </div>
+          <SidebarMenuItem
+            to='/events/'
             icon='/media/icons/duotune/communication/com013.svg'
-            title='Custom Session'
+            title='Events'
             fontIcon='bi-layers'
            
           />
