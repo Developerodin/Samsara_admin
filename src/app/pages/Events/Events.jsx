@@ -41,6 +41,17 @@ export const Events = () => {
     const handelCustomSessionsAdd = ()=>{
 
     }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    }
+    
+    
+
     const handleOuthAccessToken = async () => {
       // Extract the authorization code from the URL query parameters
       // const urlParams = new URLSearchParams(window.location.search);
@@ -67,6 +78,7 @@ export const Events = () => {
       //   console.error('Authorization code not found in URL parameters.');
       // }
     };
+
 
     const fetchZoomTokenServerOauth = async (token) => {
       try {
@@ -215,7 +227,7 @@ export const Events = () => {
 
            "eventName":item.eventName,
            "eventType":item.eventType,
-           "Date":item.startDate,
+           "Date":formatDate(item.startDate),
            "Time":item.startTime ,
           "Status": item.status ? <Button  variant="contained" color='success' >Active</Button> : <Button color='error' variant="contained" >In Active</Button>,
          "Delete": <DeleteIcon color='error'  onClick={() => handelDeleteEvent(item._id)}/>,
